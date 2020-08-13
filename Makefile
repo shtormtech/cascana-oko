@@ -14,7 +14,8 @@ cd $(CURDIR); \
 done
 endef
 
-.PHONY: all centos fedora unsupported deps node va config db pm2 ffserver cron sendmail omnidb switchoff start reset
+.PHONY: all centos fedora unsupported deps node va config db pm2 ffserver cron sendmail omnidb \
+	switch-off start reset stop-all start-all disable-all enable-all
 
 all: | va db pm2 ffserver cron start
 
