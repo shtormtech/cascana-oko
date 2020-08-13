@@ -94,7 +94,7 @@ omnidb:
 	sudo systemctl start omnidb
 	sudo systemctl enable omnidb
 
-switchoff:
+switch-off:
 	@echo Disabling firewalld and SELinux...
 	-sudo systemctl stop firewalld
 	-sudo setenforce 0
@@ -110,3 +110,39 @@ reset:
 	pm2 cleardump
 	pm2 start pm.config.js
 	pm2 save
+
+stop-all:
+	@echo Stopping all components...
+	-pm2 stop all
+	-pm2 stop pm2-logrotate
+	-sudo systemctl stop pm2-$(USER)
+	-sudo systemctl stop mariadb
+	-sudo systemctl stop crond
+	-sudo systemctl stop sendmail
+	-sudo systemctl stop omnidb
+
+start-all:
+	@echo Starting all components...
+	-sudo systemctl start pm2-$(USER)
+	-sudo systemctl start mariadb
+	-sudo systemctl start crond
+	-sudo systemctl start sendmail
+	-sudo systemctl start omnidb
+	pm2 start pm2-logrotate
+	pm2 start all
+
+disable-all:
+	@echo Disabling all components...
+	-sudo systemctl disable pm2-$(USER)
+	-sudo systemctl disable mariadb
+	-sudo systemctl disable crond
+	-sudo systemctl disable sendmail
+	-sudo systemctl disable omnidb
+
+enable-all:
+	@echo Enabling all components...
+	-sudo systemctl enable pm2-$(USER)
+	-sudo systemctl enable mariadb
+	-sudo systemctl enable crond
+	-sudo systemctl enable sendmail
+	-sudo systemctl enable omnidb
