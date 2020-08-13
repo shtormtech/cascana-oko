@@ -1,0 +1,40 @@
+<div class="container-person col-md-6 col-lg-4 col-xl-2 p-2 camera-{{=it.camOut}}">
+  <div class="card card-person shadow-lg {{? it.external_id}}va-person{{??}}skud-person{{?}}" data-id="{{=it.personId}}" id="person_{{=it.personId}}">
+    <img src="{{=it.photoUrl}}" class="photo-orig card-img-top orig-background border-bottom" alt="">
+    <div class="card-body">
+      <h6 class="card-title">{{=it.fio}}</h6>
+      {{? it.phone != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-2 text-muted">
+          <i class="fa fa-phone"></i>
+        </div>
+        <div class="col-10 phone-number">
+          {{=it.phone}}
+        </div>
+      </div>
+      {{?}}
+      {{? it.email != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-2 text-muted">
+          <i class="fa fa-envelope"></i>
+        </div>
+        <div class="col-10 email">
+          <a href="mailto:{{=it.email}}" target="_blank">{{=it.email}}</a>
+        </div>
+      </div>
+      {{?}}
+    </div>
+    <button class="card-footer align-baseline link-person btn btn-light" data-toggle="modal" data-target="#modal_monitor">
+      <div class="status-mark text-muted">
+        <i class="fa fa-user-times fa-2x float-left"></i>
+        <span class="ml-2 float-left status-absent"></span>
+        <i class="fa fa-info fa-2x float-right"></i>
+      </div>
+      <div class="status-mark text-success" style="display: none;">
+        <i class="fa fa-user fa-2x float-left"></i>
+        <span class="ml-2 float-left status-present"></span>
+        <i class="fa fa-info fa-2x float-right"></i>
+      </div>
+    </button>
+  </div>
+</div>

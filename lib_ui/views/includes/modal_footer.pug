@@ -1,0 +1,32 @@
+div(class="modal-footer bg-light")
+  i(class="fa fa-database text-muted")
+  div(class="request-timing text-muted w-100")
+  button(
+    type="button"
+    class="button-footer refresh btn btn-primary d-flex"
+    disabled
+  )
+    include /views/includes/spinner_button.pug
+    span(class="d-none d-lg-block mr-1") Обновить
+    i(class="fa fa-refresh p-1")
+  button(
+    type="button"
+    class="button-footer refresh page-next btn btn-secondary text-nowrap"
+    style="display: none;"
+  )
+    include /views/includes/spinner_button.pug
+    | Еще #{db_limit || ''}
+  button(
+    type="button"
+    class="btn btn-secondary"
+    data-dismiss="modal"
+    title="Закрыть"
+  )
+    i(class="fa fa-remove")
+  button(
+    type="button"
+    class="btn btn-secondary scroll-up"
+    style="display: none;"
+    title="В начало"
+  )
+    i(class="fa fa-arrow-up")

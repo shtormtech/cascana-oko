@@ -1,0 +1,34 @@
+.header-services {
+  top: 63px;
+}
+#services_content {
+  margin-bottom: 55px;
+}
+.counter-services {
+  font-size: 1em !important;
+}
+.line-log {
+  font-family: monospace;
+}
+.line-log > i {
+  font-style: normal;
+  opacity: 0.6;
+}
+.line-log.time-filtered > i {
+  color: red;
+}
+#modal_log .modal-footer .fa-database {
+  display: none;
+}
+#modal_log .modal-container {
+  overflow-wrap: break-word;
+}
+#log_hours {
+  width: 4.5em;
+}
+.navbar {
+  z-index: 1021;
+}
+#form_config h6 {
+  font-weight: bold;
+}

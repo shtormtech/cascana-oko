@@ -1,0 +1,22 @@
+{{~it.events :item:idx}}
+<div class="custom-control custom-checkbox d-flex">
+  <input class="custom-control-input" type="checkbox" id="{{=it.moduleName}}_events_{{=item.name}}"
+    value="{{=!!item.checked}}" data-init-val="{{=!!item.checked}}"
+    {{? item.checked }}checked{{?}}>
+  <label class="custom-control-label w-100" for="{{=it.moduleName}}_events_{{=item.name}}">
+    <input type="hidden" name="{{=it.moduleName}}__events[{{=idx}}].name" value="{{=item.name}}">
+    <input class="w-100" type="text" name="{{=it.moduleName}}__events[{{=idx}}].description"
+      value="{{=item.description}}" data-init-val="{{=item.description}}"
+      {{? !item.checked }}disabled{{?}}>
+  </label>
+  {{? it.moduleName == 'sendmail' }}
+  <span class="color-picker pl-2">
+    <input type="hidden" name="{{=it.moduleName}}__events[{{=idx}}].color"
+      value="{{=item.color || '#FFFFFF'}}" data-init-val="{{=item.color || '#FFFFFF'}}">
+    <span class="colorpicker-input-addon">
+      <i title="Цвет события"></i>
+    </span>
+  </span>
+  {{?}}
+</div>
+{{~}}

@@ -1,0 +1,12 @@
+{
+  "from":    "Cascana VA Mailer <va@shtormtech.ru>",
+  "to":      "{{=it.to}}",
+  "subject": "Событие видеоаналитики",
+  "text":    "{{=it.text}}",
+  "html":    "{{=it.html}}",
+  "attachments": [{
+    "filename": "{{=it.file_name}}",
+    "path":     "{{=it.path}}",
+    "cid":      "{{=it.file_name}}"
+  }]
+}

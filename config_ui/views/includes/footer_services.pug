@@ -1,0 +1,33 @@
+div(class="footer-services fixed-bottom border-top bg-light")
+  div(class="row px-3 align-items-center")
+    div(class="col-md-5 d-flex py-2")
+      span(class="host-name") #{hosts[0]}
+      span(class="counter-services badge badge-pill badge-primary ml-2")
+
+    div(class="col-md-7 d-flex justify-content-end")
+      button(
+        type="button"
+        class="btn-footer btn-service-refresh btn btn-primary d-flex ml-2 my-2"
+        disabled
+      )
+        include /views/includes/spinner_button.pug
+        span(class="d-none d-lg-block mr-1") Обновить
+        i(class="fa fa-refresh p-1")
+
+      button(
+        type="button"
+        class="btn-footer btn-service-stop btn btn-secondary d-flex ml-2 my-2"
+        disabled
+      )
+        include /views/includes/spinner_button.pug
+        span(class="d-none d-lg-block mr-1") Стоп все
+        i(class="fa fa-stop p-1")
+
+      button(
+        type="button"
+        class="btn-footer btn-service-start btn btn-primary d-flex ml-2 my-2"
+        disabled
+      )
+        include /views/includes/spinner_button.pug
+        span(class="d-none d-lg-block mr-1") Старт/рестарт все
+        i(class="fa fa-play p-1")

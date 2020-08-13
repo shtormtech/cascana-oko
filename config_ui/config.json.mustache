@@ -1,0 +1,17 @@
+{
+  "listen_host":     "0.0.0.0",
+  "listen_port":     {{VA_CONFIG_UI_PORT}},
+  "cert_file":       "",
+  "user":            "{{VA_CONFIG_UI_USER}}",
+  "password":        "{{{VA_CONFIG_UI_PWD}}}",
+  "config_port":     {{VA_CONFIGSVC_PORT}},
+  "log_date_format": "YYYY-MM-DD HH:mm:ss.SSS",
+  "db_svc": {
+    "host":          "{{{VA_DBSVC_HOST}}}",
+    "port":          {{VA_DBSVC_PORT}},
+    "agent_timeouts": {
+      "response":    30,
+      "deadline":    60
+    }
+  }
+}

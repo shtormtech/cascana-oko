@@ -1,0 +1,13 @@
+{
+  "listen_host":      "0.0.0.0",
+  "listen_port":      {{VA_DBSVC_PORT}},
+  "cert_file":        "",
+  "ip_wlist":         "{{{VA_DBSVC_IPWL}}}",
+  "db_options": {
+    "socketPath":     "/var/lib/mysql/mysql.sock",
+    "user":           "{{VA_DB_USER}}",
+    "password":       "{{{VA_DB_PWD}}}",
+    "socketTimeout":  0,
+    "connectTimeout": 0
+  }
+}

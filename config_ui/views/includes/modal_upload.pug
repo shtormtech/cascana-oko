@@ -1,0 +1,67 @@
+div(
+  class="modal"
+  id="modal_upload"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal_upload_label"
+  aria-hidden="true"
+)
+  div(
+    class="modal-dialog modal-dialog-centered"
+    role="document"
+  )
+    div(class="modal-content shadow-lg")
+      form(id="form_upload")
+        div(class="modal-header")
+          h5(
+            class="modal-title"
+            id="modal_upload_label"
+          ) Загрузка файлов
+
+          button(
+            type="button"
+            class="close"
+            data-dismiss="modal"
+          )
+            span(aria-hidden="true") &times;
+
+        div(class="modal-body p-4")
+          div(class="custom-file")
+            input(
+              type="file"
+              class="custom-file-input"
+              id="input_upload_file"
+              multiple
+            )
+            label(
+              class="custom-file-label"
+              for="input_upload_file"
+            ) Выберите файлы
+            ul(class="list-file-upload text-muted px-3 pt-2")
+
+        div(class="modal-footer bg-light")
+          div(class="w-100")
+            div
+            small(class="text-muted")
+          button(
+            type="submit"
+            class="button-footer btn-upload btn btn-primary d-flex"
+            disabled
+          )
+            include /views/includes/spinner_button.pug
+            span(class="d-none d-lg-block mr-1") Загрузить
+            i(class="fa fa-download p-1")
+          button(
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+            title="Закрыть"
+          )
+            i(class="fa fa-remove")
+          button(
+            type="button"
+            class="btn btn-secondary scroll-up"
+            style="display: none;"
+            title="В начало"
+          )
+            i(class="fa fa-arrow-up")

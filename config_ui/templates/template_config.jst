@@ -1,0 +1,816 @@
+{{##def.portMin:1024#}}
+{{##def.portMax:49151#}}
+
+{{##def.portComment:
+Порты из диапазона {{#def.portMin}}..{{#def.portMax}}
+#}}
+
+{{##def.spinner:
+<div class="spinner my-3 mx-4">
+  <div class="spinner-border spinner-border text-primary" role="status">
+    <span class="sr-only">Загрузка...</span>
+  </div>
+</div>
+#}}
+
+{{##def.addressHead:
+<div class="row px-3 pb-2">
+  <div class="col col-sm-8 p-0">Имя/адрес хоста</div>
+  <div class="col col-sm-4 p-0">Порт</div>
+</div>
+#}}
+
+{{##def.loginHead:
+<div class="row px-3 pb-2">
+  <div class="col p-0">Логин</div>
+  <div class="col p-0">Пароль</div>
+  <div class="pl-4 pr-5"></div>
+</div>
+#}}
+
+{{##def.timeoutHead:
+<div class="row px-3 pb-2">
+  <div class="col p-0">Таймаут ожидания ответа</div>
+  <div class="col p-0">Общий таймаут запроса</div>
+</div>
+#}}
+
+{{##def.passwordAddon:
+<div class="input-group-append">
+  <button class="btn btn-outline-secondary password-addon-refresh py-0" type="button" title="Сгенерировать новый пароль">
+    <i class="fa fa-key"></i>
+  </button>
+  <button class="btn btn-outline-secondary password-addon-toggle py-0" type="button" title="Показать/скрыть">
+    <i class="fa fa-eye"></i>
+  </button>
+</div>
+#}}
+
+{{##def.itemAddon:
+<div class="input-group-append">
+  <button class="btn btn-outline-secondary item-addon-minus py-0" type="button">
+    <i class="fa fa-minus"></i>
+  </button>
+  <button class="btn btn-outline-secondary item-addon-plus py-0" type="button">
+    <i class="fa fa-plus"></i>
+  </button>
+</div>
+#}}
+
+<section class="my-4">
+  <!-- ПОДКЛЮЧЕНИЕ -->
+  {{? it.listen_host != undefined }}
+  <div class="form-group px-4">
+    {{#def.addressHead}}
+    <div class="input-group">
+      <input type="text" class="form-control col-sm-8" name="{{=it.moduleName}}__listen_host"
+        value="{{=it.listen_host}}" data-init-val="{{=it.listen_host}}" required>
+      <input type="number" class="form-control col-sm-4" name="{{=it.moduleName}}__listen_port"
+        value="{{=it.listen_port}}" data-init-val="{{=it.listen_port}}"
+        min="{{#def.portMin}}" max="{{#def.portMax}}" required>
+    </div>
+    <small class="form-text text-muted">
+      Слушать все сетевые интерфейсы: 0.0.0.0. {{#def.portComment}}
+    </small>
+  </div>
+  {{?}}
+  {{? it.cert_file != undefined }}
+  <div class="form-group px-4">
+    <label>Файл сертификата</label>
+    <div class="input-group">
+      <select class="form-control custom-select module-select select-cert" id="{{=it.moduleName}}_cert_file"
+        name="{{=it.moduleName}}__cert_file" data-init-val="{{=it.cert_file}}" disabled>
+        <option value="" {{? it.cert_file=='' }}selected{{?}}>
+          НЕТ
+        </option>
+      </select>
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary btn-cert-view py-0" type="button" title="Просмотреть сертификат"
+          data-toggle="modal" data-target="#modal_view" disabled>
+          <i class="fa fa-eye"></i>
+        </button>
+        <button class="btn btn-outline-secondary btn-cert-upload py-0" type="button" title="Загрузить файл сертификата"
+          data-toggle="modal" data-target="#modal_upload">
+          <i class="fa fa-download"></i>
+        </button>
+      </div>
+    </div>
+    <small class="form-text text-muted">Файл сертификата в формате PEM, включающий публичный и приватный ключи</small>
+  </div>
+  {{?}}
+  {{? it.user != undefined }}
+  <div class="form-group px-4">
+    {{#def.loginHead}}
+    <div class="input-group">
+      <input type="text" class="form-control col-sm-8" name="{{=it.moduleName}}__user"
+        value="{{=it.user}}" data-init-val="{{=it.user}}" required>
+      <input class="form-control input-password" name="{{=it.moduleName}}__password" type="password"
+        value="{{=it.password}}" data-init-val="{{=it.password}}" autocomplete="off" required>
+      {{#def.passwordAddon}}
+    </div>
+    <small class="form-text text-muted"></small>
+  </div>
+  {{?}}
+  {{? it.ip_wlist != undefined }}
+  <div class="form-group px-4">
+    <label>Разрешенные адреса</label>
+    <input class="form-control" name="{{=it.moduleName}}__ip_wlist"
+      type="text" value="{{=it.ip_wlist}}" data-init-val="{{=it.ip_wlist}}">
+    <small class="form-text text-muted">
+      Адреса, с которых допускается подключение к сервису. См. <a href="https://github.com/tunnckocore/express-ip-filter#readme" target="_blank">синтаксис</a>.
+    </small>
+  </div>
+  {{?}}
+  {{? it.ac_allow_origin != undefined }}
+  <div class="form-group px-4">
+    <label>Разрешенный хост</label>
+    <input class="form-control" name="{{=it.moduleName}}__ac_allow_origin"
+      type="text" value="{{=it.ac_allow_origin}}" data-init-val="{{=it.ac_allow_origin}}" required>
+    <small class="form-text text-muted">
+      Контроль доступа к сервису с помощью заголовка Access-Control-Allow-Origin. Можно указать только один URL. Разрешено всем: *
+    </small>
+  </div>
+  {{?}}
+
+  <!-- МОДУЛИ -->
+  {{? it.detect_module != undefined }}
+  <div class="form-group px-4">
+    <label>
+      <span>Модуль обработки изображения</span>
+      <button class="btn btn-outline-secondary py-0 px-2" type="button" data-toggle="collapse"
+        data-target="#config_detect_module" aria-expanded="false" aria-controls="config_detect_module">
+        <i class="fa fa-caret-down"></i>
+      </button>
+    </label>
+    <select class="form-control custom-select module-select" name="{{=it.moduleName}}__detect_module"
+      data-init-val="{{=it.detect_module}}">
+      <option value="face_detect" {{? it.detect_module=='face_detect' }}selected{{?}}>
+        Детектор лиц OpenCV HAAR
+      </option>
+    </select>
+    <small class="form-text text-muted"></small>
+  </div>
+  <div class="collapse bg-light mt-2 mb-3 border-top border-bottom" id="config_detect_module">
+    {{#def.spinner}}
+    <div></div>
+  </div>
+  {{?}}
+
+  {{? it.process_module != undefined }}
+  <div class="form-group px-4">
+    <label>
+      <span>Модуль распознавания</span>
+      <button class="btn btn-outline-secondary py-0 px-2" type="button" data-toggle="collapse"
+        data-target="#config_process_module" aria-expanded="false" aria-controls="config_process_module">
+        <i class="fa fa-caret-down"></i>
+      </button>
+    </label>
+    <select class="form-control custom-select module-select" name="{{=it.moduleName}}__process_module"
+      data-init-val="{{=it.process_module}}">
+      <option value="mailru" {{? it.process_module=='mailru' }}selected{{?}}>
+        Облачный сервис Vision от Mail.ru
+      </option>
+      <option value="kryptonite" {{? it.process_module=='kryptonite' }}selected{{?}}>
+        Сервис компании Криптонит
+      </option>
+      <option value="raw" {{? it.process_module=='raw' }}selected{{?}}>
+        Без обработки
+      </option>
+    </select>
+    <small class="form-text text-muted"></small>
+  </div>
+  <div class="collapse bg-light mt-2 mb-3 border-top border-bottom" id="config_process_module">
+    {{#def.spinner}}
+    <div></div>
+  </div>
+  {{?}}
+
+  {{? it.action_module != undefined }}
+  <div class="form-group px-4">
+    <label>
+      <span>Модуль обработки результатов распознавания</span>
+      <button class="btn btn-outline-secondary py-0 px-2" type="button" data-toggle="collapse"
+        data-target="#config_action_module" aria-expanded="false" aria-controls="config_action_module">
+        <i class="fa fa-caret-down"></i>
+      </button>
+    </label>
+    <select class="form-control custom-select module-select" name="{{=it.moduleName}}__action_module"
+      data-init-val="{{=it.action_module}}">
+      <option value="log" {{? it.action_module=='log' }}selected{{?}}>
+        Только сбор статистики
+      </option>
+    </select>
+    <small class="form-text text-muted"></small>
+  </div>
+  <div class="collapse bg-light mt-2 mb-3 border-top border-bottom" id="config_action_module">
+    {{#def.spinner}}
+    <div></div>
+  </div>
+  {{?}}
+
+  {{? it.opt_modules != undefined }}
+  <div class="form-group">
+    <label class="px-4">Опциональные модули</label>
+    <div class="custom-control custom-checkbox mx-4">
+      <input class="custom-control-input" type="checkbox" id="{{=it.moduleName}}_opt_modules.monitor"
+        name="{{=it.moduleName}}__opt_modules[0]" value="monitor"
+        data-init-val="{{=it.opt_modules.includes('monitor')}}"
+        {{? it.opt_modules.includes('monitor') }}checked{{?}}>
+      <label class="custom-control-label" for="{{=it.moduleName}}_opt_modules.monitor">
+        <span>Модуль мониторинга</span>
+        <button class="btn btn-outline-secondary py-0 px-2" type="button" data-toggle="collapse"
+          data-target="#config_monitor" aria-expanded="false" aria-controls="config_monitor">
+          <i class="fa fa-caret-down"></i>
+        </button>
+      </label>
+    </div>
+    <div class="collapse bg-light mt-2 mb-3 border-top border-bottom" id="config_monitor">
+      {{#def.spinner}}
+      <div></div>
+    </div>
+
+    <div class="custom-control custom-checkbox mx-4">
+      <input class="custom-control-input" type="checkbox" id="{{=it.moduleName}}_opt_modules.stat"
+        name="{{=it.moduleName}}__opt_modules[1]" value="stat"
+        data-init-val="{{=it.opt_modules.includes('stat')}}"
+        {{? it.opt_modules.includes('stat') }}checked{{?}}>
+      <label class="custom-control-label" for="{{=it.moduleName}}_opt_modules.stat">
+        <span>Сбор статистики</span>
+        <button class="btn btn-outline-secondary py-0 px-2" type="button" data-toggle="collapse"
+          data-target="#config_stat" aria-expanded="false" aria-controls="config_stat">
+          <i class="fa fa-caret-down"></i>
+        </button>
+      </label>
+    </div>
+    <div class="collapse bg-light mt-2 mb-3 border-top border-bottom" id="config_stat">
+      {{#def.spinner}}
+      <div></div>
+    </div>
+
+    <div class="custom-control custom-checkbox mx-4">
+      <input class="custom-control-input" type="checkbox" id="{{=it.moduleName}}_opt_modules.archive"
+        name="{{=it.moduleName}}__opt_modules[2]" value="archive"
+        data-init-val="{{=it.opt_modules.includes('archive')}}"
+        {{? it.opt_modules.includes('archive') }}checked{{?}}>
+      <label class="custom-control-label" for="{{=it.moduleName}}_opt_modules.archive">
+        <span>Архивация фотографий</span>
+        <button class="btn btn-outline-secondary py-0 px-2" type="button" data-toggle="collapse"
+          data-target="#config_archive" aria-expanded="false" aria-controls="config_archive">
+          <i class="fa fa-caret-down"></i>
+        </button>
+      </label>
+    </div>
+    <div class="collapse bg-light mt-2 mb-3 border-top border-bottom" id="config_archive">
+      {{#def.spinner}}
+      <div></div>
+    </div>
+
+    <div class="custom-control custom-checkbox mx-4">
+      <input class="custom-control-input" type="checkbox" id="{{=it.moduleName}}_opt_modules.sendmail"
+        name="{{=it.moduleName}}__opt_modules[3]" value="sendmail"
+        data-init-val="{{=it.opt_modules.includes('sendmail')}}"
+        {{? it.opt_modules.includes('sendmail') }}checked{{?}}>
+      <label class="custom-control-label" for="{{=it.moduleName}}_opt_modules.sendmail">
+        <span>Рассылка оповещений по e-mail</span>
+        <button class="btn btn-outline-secondary py-0 px-2" type="button" data-toggle="collapse"
+          data-target="#config_sendmail" aria-expanded="false" aria-controls="config_sendmail">
+          <i class="fa fa-caret-down"></i>
+        </button>
+      </label>
+    </div>
+    <div class="collapse bg-light mt-2 mb-3 border-top border-bottom" id="config_sendmail">
+      {{#def.spinner}}
+      <div></div>
+    </div>
+
+    <div class="custom-control custom-checkbox mx-4">
+      <input class="custom-control-input" type="checkbox" id="{{=it.moduleName}}_opt_modules.ejabberd"
+        name="{{=it.moduleName}}__opt_modules[4]" value="ejabberd"
+        data-init-val="{{=it.opt_modules.includes('ejabberd')}}"
+        {{? it.opt_modules.includes('ejabberd') }}checked{{?}}>
+      <label class="custom-control-label" for="{{=it.moduleName}}_opt_modules.ejabberd">
+        <span>Рассылка оповещений через сервер eJabberd</span>
+        <button class="btn btn-outline-secondary py-0 px-2" type="button" data-toggle="collapse"
+          data-target="#config_ejabberd" aria-expanded="false" aria-controls="config_ejabberd">
+          <i class="fa fa-caret-down"></i>
+        </button>
+      </label>
+    </div>
+    <div class="collapse bg-light mt-2 mb-3 border-top border-bottom" id="config_ejabberd">
+      {{#def.spinner}}
+      <div></div>
+    </div>
+
+    <div class="custom-control custom-checkbox mx-4">
+      <input class="custom-control-input" type="checkbox" id="{{=it.moduleName}}_opt_modules.receiver"
+        name="{{=it.moduleName}}__opt_modules[6]" value="receiver"
+        data-init-val="{{=it.opt_modules.includes('receiver')}}"
+        {{? it.opt_modules.includes('receiver') }}checked{{?}}>
+      <label class="custom-control-label" for="{{=it.moduleName}}_opt_modules.receiver">
+        <span>Модуль-приемник для интеграции с внешними сервисами</span>
+        <button class="btn btn-outline-secondary py-0 px-2" type="button" data-toggle="collapse"
+          data-target="#config_receiver" aria-expanded="false" aria-controls="config_receiver">
+          <i class="fa fa-caret-down"></i>
+        </button>
+      </label>
+    </div>
+    <div class="collapse bg-light mt-2 mb-3 border-top border-bottom" id="config_receiver">
+      {{#def.spinner}}
+      <div></div>
+    </div>
+    <small class="form-text text-muted px-4">
+      Модули имеют отдельный конфигурационный файл на каждый видеопоток
+    </small>
+  </div>
+  {{?}}
+
+  <!-- ВИДЕОПОТОК -->
+  {{? it.vstream != undefined }}
+  <div class="form-group px-4">
+    <label>Видеопоток</label>
+    <div class="row px-3 pb-2">
+      <div class="col col-sm-2 col-md-1 p-0">ID</div>
+      <div class="col p-0">URL</div>
+      <div class="col col-sm-2 col-md-1 p-0">Частота</div>
+    </div>
+    <div class="input-group">
+      <input type="text" class="form-control col-sm-2 col-md-1" name="{{=it.moduleName}}__vstream.id"
+        value="{{=it.vstream.id}}" data-init-val="{{=it.vstream.id}}">
+      <input type="text" class="form-control" name="{{=it.moduleName}}__vstream.url"
+        value="{{=it.vstream.url}}" data-init-val="{{=it.vstream.url}}">
+      <input type="number" class="form-control col-sm-2 col-md-1" name="{{=it.moduleName}}__vstream.freq"
+        value="{{=it.vstream.freq}}" data-init-val="{{=it.vstream.freq}}" min="0.5" max="10" step="0.5">
+    </div>
+    <small class="form-text text-muted">
+      Частота нарезки варьируется в диапазоне 0,5..10 изображений в секунду
+    </small>
+  </div>
+  {{?}}
+  {{? it.ffmpeg_options != undefined }}
+  <div class="form-group px-4">
+    <label>Опции FFMPEG</label>
+    <input class="form-control" name="{{=it.moduleName}}__ffmpeg_options" type="text"
+      value="{{=it.ffmpeg_options}}" data-init-val="{{=it.ffmpeg_options}}" required>
+    <small class="form-text text-muted">
+      Опции дочернего процесса разборки видеопотока. См. <a href="https://ffmpeg.org/ffmpeg.html#Options" target="_blank">синтаксис</a>
+    </small>
+  </div>
+  {{?}}
+
+  <!-- ДЕТЕКТОР -->
+  {{? it.ocv_scale_factor != undefined }}
+  <div class="form-group px-4">
+    <div class="row px-3 pb-2">
+      <div class="col p-0">Scale Factor</div>
+      <div class="col p-0">Min Neighbors</div>
+      <div class="col p-0">Min Size</div>
+    </div>
+    <div class="input-group">
+      <input type="number" class="form-control" name="{{=it.moduleName}}__ocv_scale_factor"
+        value="{{=it.ocv_scale_factor}}" data-init-val="{{=it.ocv_scale_factor}}"
+        min="1" max="2" step="0.01" required>
+      <input type="number" class="form-control" name="{{=it.moduleName}}__ocv_min_neighbors"
+        value="{{=it.ocv_min_neighbors}}" data-init-val="{{=it.ocv_min_neighbors}}"
+        min="1" max="100" required>
+      <input type="number" class="form-control" name="{{=it.moduleName}}__ocv_min_size"
+        value="{{=it.ocv_min_size}}" data-init-val="{{=it.ocv_min_size}}"
+        min="50" max="200" step="10" required>
+    </div>
+    <small class="form-text text-muted">
+      Параметры классификатора HAAR. См. <a href="https://docs.opencv.org/3.4/d2/d99/tutorial_js_face_detection.html" target="_blank">описание</a>
+    </small>
+  </div>
+  {{?}}
+  {{? it.use_gpu != undefined }}
+  <div class="form-group px-4">
+    <div class="custom-control custom-switch">
+      <input class="custom-control-input" type="checkbox" id="{{=it.moduleName}}_use_gpu" name="{{=it.moduleName}}__use_gpu"
+        data-init-val="{{=!!it.use_gpu}}" {{? it.use_gpu }}checked{{?}}>
+      <label class="custom-control-label" for="{{=it.moduleName}}_use_gpu">
+        Использовать GPU
+      </label>
+    </div>
+    <small class="form-text text-muted">Использовать для детектирования лиц графический процессор вместо центрального</small>
+  </div>
+  {{?}}
+
+  <!-- ВНЕШНИЕ СЕРВИСЫ -->
+  {{? it.url != undefined }}
+  <div class="form-group px-4">
+    <label>URL сервиса</label>
+    <input class="form-control" name="{{=it.moduleName}}__url" type="text"
+      value="{{=it.url}}" data-init-val="{{=it.url}}" required>
+    <small class="form-text text-muted"></small>
+  </div>
+  {{?}}
+  {{? it.base_url != undefined }}
+  <div class="form-group px-4">
+    <label>Базовый URL</label>
+    <input class="form-control" name="{{=it.moduleName}}__base_url" type="text"
+      value="{{=it.base_url}}" data-init-val="{{=it.base_url}}" required>
+    <small class="form-text text-muted"></small>
+  </div>
+  {{?}}
+  {{? it.token != undefined }}
+  <div class="form-group px-4">
+    <label>Токен авторизации</label>
+    <input class="form-control" name="{{=it.moduleName}}__token" type="text"
+      value="{{=it.token}}" data-init-val="{{=it.token}}">
+    <small class="form-text text-muted"></small>
+  </div>
+  {{?}}
+  {{? it.oauth_token != undefined }}
+  <div class="form-group px-4">
+    <div class="row px-3 pb-2">
+      <div class="col col-sm-8 p-0">OAUTH токен</div>
+      <div class="col col-sm-4 p-0">OAUTH провайдер</div>
+    </div>
+    <div class="input-group">
+      <input type="text" class="form-control col-sm-8" name="{{=it.moduleName}}__oauth_token"
+        value="{{=it.oauth_token}}" data-init-val="{{=it.oauth_token}}" required>
+      <input type="text" class="form-control col-sm-4" name="{{=it.moduleName}}__oauth_provider"
+        value="{{=it.oauth_provider}}" data-init-val="{{=it.oauth_provider}}" required>
+    </div>
+    <small class="form-text text-muted"></small>
+  </div>
+  {{?}}
+  {{? it.body_limit != undefined }}
+  <div class="form-group px-4">
+    <label>Максимальный размер тела</label>
+    <input class="form-control" name="{{=it.moduleName}}__body_limit" type="number"
+      value="{{=it.body_limit}}" data-init-val="{{=it.body_limit}}"
+      min="0.1" max="10" step="0.1" required>
+    <small class="form-text text-muted">Максимальный размер тела запроса в МБ: 0,1..10</small>
+  </div>
+  {{?}}
+
+  <!-- СЕРВИСЫ РАСПОЗНАВАНИЯ -->
+  {{? it.space != undefined }}
+  <div class="form-group px-4">
+    <label>Номер банка данных</label>
+    <input class="form-control" name="{{=it.moduleName}}__space" type="number"
+      value="{{=it.space}}" data-init-val="{{=it.space}}" min="0" max="9" required>
+    <small class="form-text text-muted">Номер банка данных с оригиналами лиц для распознавания: 0..9</small>
+  </div>
+  {{?}}
+  {{? it.list_id != undefined }}
+  <div class="form-group px-4">
+    <label>ID списка</label>
+    <input class="form-control" name="{{=it.moduleName}}__list_id" type="text"
+      value="{{=it.list_id}}" data-init-val="{{=it.list_id}}" required>
+    <small class="form-text text-muted">Идентификатор рабочего списка персон/лиц</small>
+  </div>
+  {{?}}
+  {{? it.extract_attributes != undefined }}
+  <div class="form-group px-4">
+    <div class="custom-control custom-switch">
+      <input class="custom-control-input" type="checkbox" id="{{=it.moduleName}}_extract_attributes" name="{{=it.moduleName}}__extract_attributes"
+        data-init-val="{{=!!it.extract_attributes}}" {{? it.extract_attributes }}checked{{?}}>
+      <label class="custom-control-label" for="{{=it.moduleName}}_extract_attributes">
+        Извлекать атрибуты лица
+      </label>
+    </div>
+    <small class="form-text text-muted">Возраст, пол, эмоцию и другие</small>
+  </div>
+  {{?}}
+  {{? it.min_face_size != undefined }}
+  <div class="form-group px-4">
+    <label>Минимальный размер лица</label>
+    <input class="form-control" name="{{=it.moduleName}}__min_face_size" type="number"
+      value="{{=it.min_face_size}}" data-init-val="{{=it.min_face_size}}" min="50" max="100" required>
+    <small class="form-text text-muted">Минимальный размер лица для распознавания в пикселях</small>
+  </div>
+  {{?}}
+  {{? it.threshold != undefined }}
+  <div class="form-group px-4">
+    <label>Минимальное совпадение</label>
+    <input class="form-control" name="{{=it.moduleName}}__threshold" type="number"
+      value="{{=it.threshold}}" data-init-val="{{=it.threshold}}" min="0" max="100" required>
+    <small class="form-text text-muted">Минимальная для положительного решения вероятность совпадения с оригиналом в %</small>
+  </div>
+  {{?}}
+  {{? it.verificate_timeout != undefined }}
+  <div class="form-group px-4">
+    <label>Таймаут верификации лица</label>
+    <input class="form-control" name="{{=it.moduleName}}__verificate_timeout" type="number"
+      value="{{=it.verificate_timeout}}" data-init-val="{{=it.verificate_timeout}}" min="3" max="300" required>
+    <small class="form-text text-muted">Время, отводимое на верификацию лица, сек: 3..300</small>
+  </div>
+  {{?}}
+
+  <!-- MAILER -->
+  {{? it.transport != undefined }}
+  <div class="form-group px-4">
+    <div class="row px-3 pb-2">
+      <div class="col p-0">Транспорт</div>
+      <div class="col p-0">Перевод строки</div>
+      <div class="col p-0">Путь</div>
+    </div>
+    <div class="input-group">
+      <div class="form-control">
+        <div class="custom-control custom-switch">
+          <input class="custom-control-input transport-sendmail" type="checkbox" id="{{=it.moduleName}}_transport_sendmail" name="{{=it.moduleName}}__transport.sendmail"
+            data-init-val="{{=!!it.transport.sendmail}}" {{? it.transport.sendmail }}checked{{?}}>
+          <label class="custom-control-label" for="{{=it.moduleName}}_transport_sendmail">
+            sendmail
+          </label>
+        </div>
+      </div>
+      <select class="form-control custom-select" name="{{=it.moduleName}}__transport.newline"
+        data-init-val="{{=it.transport.newline}}">
+        <option value="unix" {{? it.detect_module=='unix' }}selected{{?}}>
+          UNIX: LF
+        </option>
+        <option value="windows" {{? it.detect_module=='windows' }}selected{{?}}>
+          WINDOWS: CR+LF
+        </option>
+      </select>
+      <input type="text" class="form-control" name="{{=it.moduleName}}__transport.path"
+        value="{{=it.transport.path}}" data-init-val="{{=it.transport.path}}">
+    </div>
+    <small class="form-text text-muted">
+      Включите транспорт или используйте внешний сервер SMTP
+    </small>
+  </div>
+  {{?}}
+  {{? it.smtp != undefined }}
+  <div class="form-group px-4">
+    <label>Сервер SMTP</label>
+    {{#def.addressHead}}
+    <div class="input-group">
+      <input type="text" class="form-control smtp-input col-sm-8" name="{{=it.moduleName}}__smtp.host"
+        value="{{=it.smtp.host}}" data-init-val="{{=it.smtp.host}}" {{? it.transport.sendmail }}disabled{{?}}>
+      <input type="number" class="form-control smtp-input col-sm-4" name="{{=it.moduleName}}__smtp.port"
+        value="{{=it.smtp.port}}" data-init-val="{{=it.smtp.port}}"
+        min="0" max="65535" {{? it.transport.sendmail }}disabled{{?}}>
+    </div>
+    <small class="form-text text-muted">Порты из диапазона: 0..65535</small>
+  </div>
+  {{?}}
+
+  <!-- ТАЙМАУТЫ -->
+  {{? it.agent_timeouts != undefined }}
+  <section class="my-4">
+    <div class="form-group px-4">
+      {{#def.timeoutHead}}
+      <div class="input-group">
+        <input type="number" class="form-control" name="{{=it.moduleName}}__agent_timeouts.response"
+          value="{{=it.agent_timeouts.response}}" data-init-val="{{=it.agent_timeouts.response}}"
+          min="1" max="600" required>
+        <input type="number" class="form-control" name="{{=it.moduleName}}__agent_timeouts.deadline"
+          value="{{=it.agent_timeouts.deadline}}" data-init-val="{{=it.agent_timeouts.deadline}}"
+          min="1" max="600" required>
+      </div>
+      <small class="form-text text-muted">
+        Таймауты запросов сервис-сервис в сек: 1..600
+      </small>
+    </div>
+  </section>
+  {{?}}
+
+  <!-- КАМЕРЫ UI -->
+  {{? it.cameras != undefined }}
+  <div class="form-group px-4">
+    <label>Камеры</label>
+    <div class="row px-3 pb-2">
+      <div class="col col-sm-2 p-0">ID</div>
+      <div class="col p-0">URL</div>
+      <div class="col col-sm-3 p-0">Описание</div>
+      <div class="pl-4 pr-5"></div>
+    </div>
+    <div class="multi">
+      {{~it.cameras :cam:idx}}
+      <div class="input-group">
+        <input type="text" class="form-control col-sm-2" name="{{=it.moduleName}}__cameras[{{=idx}}].id"
+          value="{{=cam.id}}" data-init-val="{{=cam.id}}">
+        <input type="text" class="form-control" name="{{=it.moduleName}}__cameras[{{=idx}}].url"
+          value="{{=cam.url}}" data-init-val="{{=cam.url}}">
+        <input type="text" class="form-control col-sm-3" name="{{=it.moduleName}}__cameras[{{=idx}}].desc"
+          value="{{=cam.desc}}" data-init-val="{{=cam.desc}}">
+        {{#def.itemAddon}}
+      </div>
+      {{~}}
+    </div>
+    <small class="form-text text-muted">
+      Камеры, которые будут представлены в пользовательском интерфейсе
+    </small>
+    {{?}}
+  </div>
+
+  <!-- ДИРЕКТОРИИ -->
+  {{? it.photodir != undefined }}
+  <div class="form-group px-4">
+    <label>Путь к фото</label>
+    <input class="form-control" name="{{=it.moduleName}}__photodir" type="text"
+      value="{{=it.photodir}}" data-init-val="{{=it.photodir}}" required>
+    <small class="form-text text-muted">Путь к базовой директории фотографий с камер</small>
+  </div>
+  {{?}}
+  {{? it.origdir != undefined }}
+  <div class="form-group px-4">
+    <label>Путь к портретам</label>
+    <input class="form-control" name="{{=it.moduleName}}__origdir" type="text"
+      value="{{=it.origdir}}" data-init-val="{{=it.origdir}}" required>
+    <small class="form-text text-muted">Путь к директории с образцовыми портретами</small>
+  </div>
+  {{?}}
+  {{? it.archivedir != undefined }}
+  <div class="form-group px-4">
+    <label>Путь к архиву</label>
+    <input class="form-control" name="{{=it.moduleName}}__archivedir" type="text"
+      value="{{=it.archivedir}}" data-init-val="{{=it.archivedir}}" required>
+    <small class="form-text text-muted">Путь к базовой директории с архивом фотографий</small>
+  </div>
+  {{?}}
+  {{? it.facedir != undefined }}
+  <div class="form-group px-4">
+    <label>Путь к оригиналам лиц</label>
+    <input class="form-control" name="{{=it.moduleName}}__facedir" type="text"
+      value="{{=it.facedir}}" data-init-val="{{=it.facedir}}" required>
+    <small class="form-text text-muted">Путь к директории с обрезанными портретами</small>
+  </div>
+  {{?}}
+
+  <!-- СОБЫТИЯ -->
+  {{? it.events != undefined }}
+  <div class="form-group px-4" id="events_{{=it.moduleName}}">
+    <label>События</label>
+    {{#def.spinner}}
+    <div class="form-container"></div>
+    <small class="form-text text-muted">События, по которым будут рассылаться оповещения</small>
+  </div>
+  {{?}}
+
+  <!-- ОТДЕЛЬНЫЕ ПАРАМЕТРЫ -->
+  {{? it.config_port != undefined }}
+  <div class="form-group px-4">
+    <label>Порт сервиса конфигураций</label>
+    <input class="form-control" name="{{=it.moduleName}}__config_port" type="number"
+      value="{{=it.config_port}}" data-init-val="{{=it.config_port}}" min="{{#def.portMin}}" max="{{#def.portMax}}" required>
+    <small class="form-text text-muted">{{#def.portComment}}</small>
+  </div>
+  {{?}}
+  {{? it.cache_max_age != undefined }}
+  <div class="form-group px-4">
+    <label>Время кэширования</label>
+    <input class="form-control" name="{{=it.moduleName}}__cache_max_age" type="number"
+      value="{{=it.cache_max_age}}" data-init-val="{{=it.cache_max_age}}"
+      min="0" max="365" required>
+    <small class="form-text text-muted">Время кэширования фотографий в браузере в днях: 0..365</small>
+  </div>
+  {{?}}
+  {{? it.log_date_format != undefined }}
+  <div class="form-group px-4">
+    <label>Формат логирования даты</label>
+    <input class="form-control" name="{{=it.moduleName}}__log_date_format" type="text"
+      value="{{=it.log_date_format}}" data-init-val="{{=it.log_date_format}}" required>
+    <small class="form-text text-muted">
+      См. <a href="https://momentjs.com/docs/#/displaying/" target="_blank">синтаксис</a>
+    </small>
+  </div>
+  {{?}}
+  {{? it.db_limit != undefined }}
+  <div class="form-group px-4">
+    <label>Размер страницы</label>
+    <input class="form-control" name="{{=it.moduleName}}__db_limit" type="number"
+      value="{{=it.db_limit}}" data-init-val="{{=it.db_limit}}" min="50" max="1000" step="50" required>
+    <small class="form-text text-muted">Максимальное число строк в ответе сервера БД: 50..1000</small>
+  </div>
+  {{?}}
+  {{? it.cache_db != undefined }}
+  <div class="form-group px-4">
+    <div class="custom-control custom-switch">
+      <input class="custom-control-input" type="checkbox" id="{{=it.moduleName}}_cache_db" name="{{=it.moduleName}}__cache_db"
+        data-init-val="{{=!!it.cache_db}}" {{? it.cache_db }}checked{{?}}>
+      <label class="custom-control-label" for="{{=it.moduleName}}_cache_db">
+        Кэшировать БД
+      </label>
+    </div>
+    <small class="form-text text-muted">Возможность минимизировать запросы к небольшим БД</small>
+  </div>
+  {{?}}
+</section>
+
+<!-- БД -->
+{{? it.db_options != undefined }}
+<section class="my-4">
+  <h6 class="px-4">База данных</h6>
+  {{? it.db_options.host != undefined }}
+  <div class="form-group px-4">
+    {{#def.addressHead}}
+    <div class="input-group">
+      <input type="text" class="form-control col-sm-8" name="{{=it.moduleName}}__db_options.host"
+        value="{{=it.db_options.host}}" data-init-val="{{=it.db_options.host}}" required>
+      <input type="number" class="form-control col-sm-4" name="{{=it.moduleName}}__db_options.port"
+        value="{{=it.db_options.port}}" data-init-val="{{=it.db_options.port}}"
+        min="0" max="65535" required>
+    </div>
+    <small class="form-text text-muted">Порты из диапазона: 0..65535</small>
+  </div>
+  {{?}}
+  <div class="form-group px-4">
+    {{#def.loginHead}}
+    <div class="input-group">
+      <input type="text" class="form-control col-sm-8" name="{{=it.moduleName}}__db_options.user"
+        value="{{=it.db_options.user}}" data-init-val="{{=it.db_options.user}}" required>
+      <input class="form-control input-password" name="{{=it.moduleName}}__db_options.password" type="password"
+        value="{{=it.db_options.password}}" data-init-val="{{=it.db_options.password}}" autocomplete="off" required>
+      {{#def.passwordAddon}}
+    </div>
+    <small class="form-text text-muted"></small>
+  </div>
+  {{? it.db_options.database != undefined }}
+  <div class="form-group px-4">
+    <label>Файл</label>
+    <input class="form-control" name="{{=it.moduleName}}__db_options.database" type="text"
+      value="{{=it.db_options.database}}" data-init-val="{{=it.db_options.database}}" required>
+    <small class="form-text text-muted">Полный путь к файлу БД</small>
+  </div>
+  {{?}}
+  {{? it.db_options.socketPath != undefined }}
+  <div class="form-group px-4">
+    <label>Сокет</label>
+    <input class="form-control" name="{{=it.moduleName}}__db_options.socketPath" type="text"
+      value="{{=it.db_options.socketPath}}" data-init-val="{{=it.db_options.socketPath}}" required>
+    <small class="form-text text-muted">Полный путь к файлу сокета БД</small>
+  </div>
+  {{?}}
+</section>
+{{?}}
+
+<!-- СЕРВИС БД -->
+{{? it.db_svc != undefined }}
+<section class="my-4">
+  <h6 class="px-4">Сервис БД</h6>
+  <div class="form-group px-4">
+    {{#def.addressHead}}
+    <div class="input-group">
+      <input type="text" class="form-control col-sm-8" name="{{=it.moduleName}}__db_svc.host"
+        value="{{=it.db_svc.host}}" data-init-val="{{=it.db_svc.host}}" required>
+      <input type="number" class="form-control col-sm-4" name="{{=it.moduleName}}__db_svc.port"
+        value="{{=it.db_svc.port}}" data-init-val="{{=it.db_svc.port}}"
+        min="{{#def.portMin}}" max="{{#def.portMax}}" required>
+    </div>
+    <small class="form-text text-muted">{{#def.portComment}}</small>
+  </div>
+  <div class="form-group px-4">
+    {{#def.timeoutHead}}
+    <div class="input-group">
+      <input type="number" class="form-control" name="{{=it.moduleName}}__db_svc.agent_timeouts.response"
+        value="{{=it.db_svc.agent_timeouts.response}}" data-init-val="{{=it.db_svc.agent_timeouts.response}}"
+        min="1" max="600" required>
+      <input type="number" class="form-control" name="{{=it.moduleName}}__db_svc.agent_timeouts.deadline"
+        value="{{=it.db_svc.agent_timeouts.deadline}}" data-init-val="{{=it.db_svc.agent_timeouts.deadline}}"
+        min="1" max="600" required>
+    </div>
+    <small class="form-text text-muted">
+      Время ожидания ответа сервиса БД в сек: 1..600
+    </small>
+  </div>
+</section>
+{{?}}
+
+<!-- СЕРВИС ФОТО -->
+{{? it.photo_svc != undefined }}
+<section class="my-4">
+  <h6 class="px-4">Сервис фотографий</h6>
+  <div class="form-group px-4">
+    {{#def.addressHead}}
+    <div class="input-group">
+      <input type="text" class="form-control col-sm-8" name="{{=it.moduleName}}__photo_svc.host"
+        value="{{=it.photo_svc.host}}" data-init-val="{{=it.photo_svc.host}}" required>
+      <input type="number" class="form-control col-sm-4" name="{{=it.moduleName}}__photo_svc.port"
+        value="{{=it.photo_svc.port}}" data-init-val="{{=it.photo_svc.port}}"
+        min="{{#def.portMin}}" max="{{#def.portMax}}" required>
+    </div>
+    <small class="form-text text-muted">{{#def.portComment}}</small>
+  </div>
+</section>
+{{?}}
+
+<!-- СЕРВИС ВИДЕО -->
+{{? it.video_svc != undefined }}
+<section class="my-4">
+  <h6 class="px-4">Сервис видео</h6>
+  <div class="form-group px-4">
+    <div class="row px-3 pb-2">
+      <div class="col p-0">Имя/адрес хоста</div>
+      <div class="col col-sm-3 p-0">Порт</div>
+      {{? it.video_svc.id != undefined }}
+      <div class="col col-sm-2 p-0">ID камеры</div>
+      {{?}}
+    </div>
+    <div class="input-group">
+      <input type="text" class="form-control" name="{{=it.moduleName}}__video_svc.host"
+        value="{{=it.video_svc.host}}" data-init-val="{{=it.video_svc.host}}">
+      <input type="number" class="form-control col-sm-3" name="{{=it.moduleName}}__video_svc.port"
+        value="{{=it.video_svc.port}}" data-init-val="{{=it.video_svc.port}}">
+      {{? it.video_svc.id != undefined }}
+      <input type="text" class="form-control col-sm-2" name="{{=it.moduleName}}__video_svc.id"
+        value="{{=it.video_svc.id}}" data-init-val="{{=it.video_svc.id}}">
+      {{?}}
+    </div>
+    <small class="form-text text-muted">Параметры URL потоков видеосервера. {{#def.portComment}}</small>
+  </div>
+</section>
+{{?}}

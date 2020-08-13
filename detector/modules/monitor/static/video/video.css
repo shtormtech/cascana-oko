@@ -1,0 +1,107 @@
+html {
+  font: 16px "Helvetica", "Arial", sans-serif;
+  color: black;
+  background-color: #333;
+  overflow: hidden;
+}
+body {
+  padding: 0;
+  margin: 0;
+}
+.video {
+  position: relative;
+  width: 100%;
+}
+.video img {
+  padding: 0;
+  margin: 0;
+  display: block;
+  width: 100%;
+}
+.video .marker {
+  position: absolute;
+  white-space: nowrap;
+}
+.video .marker span {
+  position: relative;
+  top: -2.5ex;
+  background-color: yellow;
+  opacity: 0.8 !important;
+  padding: 0.3ex;
+}
+.video .marker.recognizable {
+  border: 2px solid yellow;
+  transition: opacity 0.5s;
+}
+.video .marker.not-recognizable {
+  border: 2px solid orange;
+  transition: opacity 0.5s;
+}
+.alert {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  font-size: 2rem;
+  line-height: 4rem;
+  position: fixed;
+  left: 0;
+  top: 0;
+  text-align: center;
+  z-index: 1;
+}
+.alert div {
+  position: relative;
+  top: 50%;
+  margin-top: -2rem;
+}
+.red {
+  color: red !important;
+}
+
+/* Информация на видео */
+.info, .camera, .log, .zone {
+  position: fixed;
+  background-color: white;
+  opacity: 0.6;
+  padding: 0.3ex;
+}
+.info {
+  text-align: right;
+  right: 0;
+  bottom: 0;
+}
+.camera {
+  left: 0;
+  top: 0;
+}
+.log {
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+}
+.zone {
+  right: 0;
+  top: 0;
+}
+.text-container {
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  bottom: 10vh;
+}
+.text {
+  display: inline-block;
+  background-color: white;
+  opacity: 0.8;
+  font-size: 1.5rem;
+  padding: 0.2ex 1ex;
+  border-radius: 2ex;
+}
+.success {
+  color: white;
+  background-color: green;
+}
+.warning {
+  color: white;
+  background-color: red;
+}

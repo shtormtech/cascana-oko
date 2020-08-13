@@ -1,0 +1,28 @@
+{
+  "name": "va_gallery_ui",
+  "version": "1.0.0",
+  "description": "Галерея лиц",
+  "main": "index.js",
+  "config": {
+    "file": "./config.json",
+    "loglvl": "info"
+  },
+  "scripts": {
+    "start": "node index.js --trace-sync-io"
+  },
+  "author": "alexey.y.saraev@shtormtech.ru",
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^3.3.1",
+    "express": "^4.17.1",
+    "jquery": "^3.4.1",
+    "module-alias": "^2.2.2",
+    "socket.io": "^2.3.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "_moduleAliases": {
+    "@lib": "../lib"
+  }
+}

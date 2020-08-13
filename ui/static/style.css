@@ -1,0 +1,140 @@
+@media (max-width: 1200px) {
+  .events > div {
+    overflow: visible !important;
+  }
+}
+iframe {
+  width: 100%;
+  border: 1px solid #666;
+  float: left;
+}
+.events .list-group-item > div div {
+  padding: 0 0.5em 0 0;
+  margin: 0;
+}
+/*.events .list-group-item > div small {
+  position: absolute;
+  top: 1.75em;
+}*/
+.event-fio {
+  color: black;
+}
+.photo-background {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAQAAADbJyoPAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAAAEgAAABIAEbJaz4AAAQnSURBVGjezZnbc9pGFIc/CUlgIMQQiOPYpENnmCa1J5nxtDN96D/fmT518tC3dlo7dmNSzDWyzc1goT6kVkAS1hFaX368iGUvH2f37J490ggqheYrmTMnmYJ9ujj+SkagmcVrir6yj5zgJkDRqLPlK2vzN9dRMFCk6isZc5LQMoVAn3DkL9ATDqJUxspfbDre1HQTjuLS9p41tijEhWnzPmLZpimQY4M0JnDNhCFDLpiF1D3xJlrnh/gwURivKJHHwvD8xGXOFUM6/IMd9JVoxYfRqVBnGyvgrBopsmSpUKfBIa27hsnxLXUyEQvfpMZL/uCQyd3B5DlgV+iBad6yyfs4OHFgCvxEJTA5q6XzDRv8yljaIBUocdEZ0aPN+VJ5hj2qMVAANHJYNJd2bxeDCT069P27urzzffbX8r1rfudPqSllKvLdmtuAwT4bKmEMatIOQ5ShHrIc1oZ5yqu1UQBq5NTBlBPYBSDHM1UwGi9lZr5llF1VMFnyiVAANrFUwWQSw1hk1cDkEk4SgKEKJq0gHtRJq4ExYh4CYdIkW6YERk2cLPhDkoGSXFK+SnDzksDMFODM/XekdWGmSmCmamDG6wTXARhBxCeBGSmAmUriPZllBCaO0ESVZWb0E6K4dCXrTraH9BIuYQdbUk0G8znhRE34rA7mgstEMDYjdTBXCfMQXZllZTBzjhOsmjmnstbSQ9BmuDZMRzrJUhiHD2vaZk5Dmp6UhwcN+Z15SeecSavKYc7j51sA6HAhrRqMv1KUyAAD397gcEg19hV3yrHvZNMokgMG2P6JD4baJu/Yo4pLy1f5igpPYqHMaXLkg9H5nndUSdP0r6WwaUphYoZgOhxJQqSlFh9CdhgdEzMsso4T37p8inlk9ny5mQjFC7Zn/BUjtpkFE/IqYeBfmuK6Z3H9b7V36BjeAnM8Y085Ykd0j3L5uBBQfX2roq02wGqY5/zoIZwtnE0trkR378mCDTVqPPeeS/FhCgtuPOPYe55yKYIZcrXwrUQtusltm5gW8vQFTSLH50eCqTVCOmkGhlvci01ZSow8hudLLq3ASHbw+AzjDVtijvfbLj+LUiQuv9AQ9ekptaIj/+dGzzgQWkZjk97CSb+6zwiYcJnscEBRnCDJ8IIhQ/keLIcp8IY9nsTK1Vhsk2G05Fe3GjMaN0uZHaprJ9PmNDilyyDKRtrKch2LDGXKlMhhJsxeOVzSp02XEc6q800LKTHZpEiJInlJwjSWpgzo08fGDuZ9bmB0LDbIUqJMAQsDXUEmL1wuLtdMsenRZ8D4BksDUlTYpshTMneIsAprzDk2n+jiaBR5y86Dv2yf0+K3FPvUHhwFNPLoOi8eAcoXnC1dkka/J2V1zIdm8GTcr/fcLu1xrJf/pStKxquQa3D6aCbKFb16uS/9B98qHnqoW/HEAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTAzLTA3VDAzOjU2OjQ4LTA1OjAwHRyAqgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wMy0wN1QwMzo1Njo0OC0wNTowMGxBOBYAAAAASUVORK5CYII=);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.orig-background {
+  background-image: url('/user.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.details-photo {
+  /*width: 100%;*/
+  border: 1px solid #aaa;
+  min-width: 100px;
+  min-height: 100px;
+  object-fit: cover;
+}
+.photo-max {
+  max-width: 200px;
+}
+.photo-orig {
+  height: 250px;
+  object-fit: cover;
+}
+.container-photo {
+  min-width: 100px;
+}
+.container-photo img {
+  width: 100%;
+  min-width: 100% !important;
+}
+.journal-photo {
+  border: 1px solid #aaa;
+  width: 50px;
+  min-width: 50px;
+  min-height: 50px;
+}
+.custom-range {
+  width: auto;
+  height: auto;
+}
+#journal_hours {
+  width: 5em;
+}
+.card-person {
+  border: 1px solid #aaa;
+  width: 100%;
+  height: 100%;
+}
+.event-warning {
+  background-color: #eee;
+}
+.skud-person .card-body {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+.mood {
+  margin-left: 0.5em;
+}
+.status-absent::before {
+  content: 'отсутствует';
+}
+.status-present::before {
+  content: 'присутствует';
+}
+
+/* Person attributes */
+.person-gender-0::before {
+  content: 'Ж';
+}
+.person-gender-1::before {
+  content: 'М';
+}
+
+.person-eyeglasses-0::before {
+  content: 'Нет';
+}
+.person-eyeglasses-1::before {
+  content: 'Да';
+}
+
+.person-race-african_american::before {
+  content: 'черная';
+}
+.person-race-asian::before {
+  content: 'желтая';
+}
+.person-race-caucasian::before {
+  content: 'белая';
+}
+.person-race-indian::before {
+  content: 'красная';
+}
+
+.person-mood-anger::before {
+  content: 'гнев';
+}
+.person-mood-disgust::before {
+  content: 'отвращение';
+}
+.person-mood-fear::before {
+  content: 'страх';
+}
+.person-mood-happiness::before {
+  content: 'счастье';
+}
+.person-mood-neutral::before {
+  content: 'нейтральный';
+}
+.person-mood-sadness::before {
+  content: 'печаль';
+}
+.person-mood-surprise::before {
+  content: 'сюрприз';
+}
+.person-mood-contempt::before {
+  content: 'презрение';
+}

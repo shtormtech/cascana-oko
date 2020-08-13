@@ -1,0 +1,4 @@
+{{=it.time}}\n
+Камера {{=it.camera_id}}\n
+Зона {{=it.zone}}\n
+{{=it.text}}: {{=it.person}}

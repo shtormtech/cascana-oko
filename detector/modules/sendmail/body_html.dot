@@ -1,0 +1,15 @@
+<div style="color: #666; padding: 0 1em 1em 0; display: inline-block;">
+  <div style="padding: 1em 0 0 1em; float: left;">
+    камера {{=it.camera_id}}
+    <div style="font-size: x-large">{{=it.time}}</div>
+    <div style="font-size: large">{{=it.zone}}</div>
+    <p></p>
+    <div style="background-color: {{=it.color}}; border-radius: 100%; width: 1em; height: 1em; float: left; margin-right: 0.2em;"></div>{{=it.text}}
+    <div style="font-size: large">{{=it.person}}</div>
+  </div>
+  <div style="padding: 1em 0 0 1em; float: left;">
+    <div style="border: 1px solid #666; padding: 5px; background-color: white;">
+      <img src="cid:{{=it.file_name}}" alt="ФОТО"/>
+    </div>
+  </div>
+</div>

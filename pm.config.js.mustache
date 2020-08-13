@@ -1,0 +1,175 @@
+// PM config
+const cwd = process.env.PWD;
+const restart_delay = 1000;
+const kill_timeout = 3000;
+const max_memory_restart = '500M';
+const log_date_format = 'YYYY-MM-DD HH:mm:ss.SSS';
+const instances = '{{PM_CLUSTER_SIZE}}';
+
+// Common environment
+const env = {
+  NODE_ENV:          'production',
+  npm_config_loglvl: 'info',
+  npm_config_file:   './config.json'
+};
+
+// Utility
+const logBase = '{{{PM_LOG_DIR}}}';
+const getLogPath = name => `${logBase}/${name}.log`;
+const getErrPath = name => `${logBase}/${name}.error.log`;
+
+// Aux services
+const apps = [
+{{#VA_MARIADB_SERVICE}}
+  {
+    name: 'va_mariadb_service',
+    cwd,
+    script: './mariadb/index.js',
+    exec_mode: 'cluster',
+    instances,
+    wait_ready: true,
+    kill_timeout,
+    restart_delay,
+    max_memory_restart,
+    output: getLogPath('va_mariadb_service'),
+    error: getErrPath('va_mariadb_service'),
+    log_date_format,
+    merge_logs: true,
+    env
+  },
+{{/VA_MARIADB_SERVICE}}
+{{#VA_PHOTO_SERVICE}}
+  {
+    name: 'va_photo_service',
+    cwd,
+    script: './photo/index.js',
+    exec_mode: 'cluster',
+    instances,
+    wait_ready: true,
+    kill_timeout,
+    restart_delay,
+    max_memory_restart,
+    output: getLogPath('va_photo_service'),
+    error: getErrPath('va_photo_service'),
+    log_date_format,
+    merge_logs: true,
+    env
+  },
+{{/VA_PHOTO_SERVICE}}
+{{#VA_MAILRU_UI}}
+  {
+    name: 'va_mailru_ui',
+    cwd,
+    script: './mailru_ui/index.js',
+    wait_ready: true,
+    kill_timeout,
+    restart_delay,
+    max_memory_restart,
+    output: getLogPath('va_mailru_ui'),
+    error: getErrPath('va_mailru_ui'),
+    log_date_format,
+    merge_logs: true,
+    env
+  },
+{{/VA_MAILRU_UI}}
+{{#VA_GALLERY_UI}}
+  {
+    name: 'va_gallery_ui',
+    cwd,
+    script: './gallery/index.js',
+    wait_ready: true,
+    kill_timeout,
+    restart_delay,
+    max_memory_restart,
+    output: getLogPath('va_gallery_ui'),
+    error: getErrPath('va_gallery_ui'),
+    log_date_format,
+    merge_logs: true,
+    env
+  },
+{{/VA_GALLERY_UI}}
+{{#VA_CONFIG_SERVICE}}
+  {
+    name: 'va_config_service',
+    cwd,
+    script: './config/index.js',
+    wait_ready: true,
+    kill_timeout,
+    restart_delay,
+    max_memory_restart,
+    output: getLogPath('va_config_service'),
+    error: getErrPath('va_config_service'),
+    log_date_format,
+    merge_logs: true,
+    env
+  },
+{{/VA_CONFIG_SERVICE}}
+{{#VA_CONFIG_UI}}
+  {
+    name: 'va_config_ui',
+    cwd,
+    script: './config_ui/index.js',
+    wait_ready: true,
+    kill_timeout,
+    restart_delay,
+    max_memory_restart,
+    output: getLogPath('va_config_ui'),
+    error: getErrPath('va_config_ui'),
+    log_date_format,
+    merge_logs: true,
+    env
+  },
+{{/VA_CONFIG_UI}}
+{{#VA_UI}}
+  {
+    name: 'va_ui',
+    cwd,
+    script: './ui/index.js',
+    exec_mode: 'cluster',
+    instances,
+    wait_ready: true,
+    kill_timeout,
+    restart_delay,
+    max_memory_restart,
+    output: getLogPath('va_ui'),
+    error: getErrPath('va_ui'),
+    log_date_format,
+    merge_logs: true,
+    env
+  },
+{{/VA_UI}}
+{{#VA_DETECTOR_SERVICE}}
+{{#CAMS}}
+  {
+    name: 'va_detector_service_{{ID}}',
+    cwd,
+    script: './detector/index.js',
+    wait_ready: true,
+    kill_timeout,
+    restart_delay,
+    max_memory_restart,
+    output: getLogPath('va_detector_service_{{ID}}'),
+    error: getErrPath('va_detector_service_{{ID}}'),
+    log_date_format,
+    env: Object.assign({}, env, {
+      npm_config_file: './config_{{ID}}.json'
+    })
+  },
+{{/CAMS}}
+{{/VA_DETECTOR_SERVICE}}
+{{#FFSERVER}}
+  {
+    name: 'ffserver',
+    cwd,
+    script: 'ffserver -n -f ./ffserver/ffserver.conf -loglevel error -hide_banner',
+    kill_timeout,
+    restart_delay,
+    max_memory_restart,
+    output: getLogPath('ffserver'),
+    error: getErrPath('ffserver'),
+    log_date_format
+  },
+{{/FFSERVER}}
+];
+
+module.exports = { apps };

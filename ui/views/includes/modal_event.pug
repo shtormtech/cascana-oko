@@ -1,0 +1,33 @@
+div(
+  class="modal fade"
+  id="modal_event"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal_event_label"
+  aria-hidden="true"
+)
+  div(
+    class="modal-dialog modal-lg modal-dialog-centered"
+    role="document"
+  )
+    div(class="modal-content")
+      div(class="modal-header")
+        h5(
+          class="modal-title"
+          id="modal_event_label") Данные системы распознавания
+        button(
+          type="button"
+          class="close"
+          data-dismiss="modal"
+        )
+          span(aria-hidden="true") &times;
+
+      div(class="modal-body p-4")
+        include /views/includes/spinner.pug
+
+      div(class="modal-footer bg-light")
+        button(
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+        ) Закрыть

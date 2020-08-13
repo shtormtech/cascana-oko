@@ -1,0 +1,36 @@
+{
+  "listen_host":   "0.0.0.0",
+  "listen_port":   {{VA_UI_PORT}},
+  "cert_file":     "",
+  "user":          "{{VA_UI_USER}}",
+  "password":      "{{{VA_UI_PWD}}}",
+  "agent_timeouts": {
+    "response":    10,
+    "deadline":    20
+  },
+  "cameras": [
+  {{#CAMS}}
+    {
+      "id":        "{{ID}}",
+      "desc":      "Камера {{IDX}}",
+      "url":       "//localhost:810{{IDX}}/video.html"
+    }{{COMMA}}
+  {{/CAMS}}
+  ],
+  "cam_in": "cam1",
+  "cam_out": "cam2",
+  "db_svc": {
+    "host": "{{{VA_DBSVC_HOST}}}",
+    "port": {{VA_DBSVC_PORT}},
+    "agent_timeouts": {
+      "response": 30,
+      "deadline": 60
+    }
+  },
+  "photo_svc": {
+    "host": "{{{VA_PHOTOSVC_HOST}}}",
+    "port": {{VA_PHOTOSVC_PORT}}
+  },
+  "db_limit": 100,
+  "cache_max_age": 1
+}

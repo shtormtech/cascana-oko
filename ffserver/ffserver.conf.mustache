@@ -1,0 +1,21 @@
+HTTPport {{VA_VIDEO_PORT}}
+HTTPBindAddress 0.0.0.0
+MaxClients 100
+MaxBandwidth 100000
+<STREAM index.html>
+  Format status
+</STREAM>
+{{#CAMS}}
+<FEED {{ID}}.ffm>
+  Launch ffmpeg -re -i {{{URL}}}
+</FEED>
+<STREAM {{ID}}.mjpg>
+  Feed {{ID}}.ffm
+  Format mpjpeg
+  VideoSize 640x360
+  VideoBitRate 4096
+  VideoFrameRate 10
+  VideoBufferSize 80
+  NoAudio
+</STREAM>
+{{/CAMS}}

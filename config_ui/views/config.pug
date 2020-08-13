@@ -1,0 +1,92 @@
+doctype html
+html(lang="ru-RU")
+  head
+    include /views/includes/meta.pug
+
+    title Конфигурация
+
+    include /views/includes/code_common.pug
+    link(
+      rel="stylesheet"
+      href="/lib/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css"
+      type="text/css"
+    )
+    link(
+      rel="stylesheet"
+      href="/style.css"
+      type="text/css"
+    )
+    script(src="/lib/rxjs/bundles/rxjs.umd.min.js")
+    script(src="/lib/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js")
+
+  body
+    nav(class="navbar navbar-expand-lg navbar-light bg-light sticky-top border-bottom py-0")
+      include /views/includes/navbar_decor.pug
+
+      div(
+        class="collapse navbar-collapse"
+        id="navbar_content"
+      )
+        ul(class="navbar-nav mr-auto")
+          li(class="nav-item dropdown")
+            div(class="dropdown")
+              form(
+                id="form_hosts"
+                data-port=config_port
+              )
+                a(
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbar_hosts"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                ) Хост
+                div(
+                  class="dropdown-menu"
+                  aria-labelledby="navbar_cameras"
+                )
+                  each entry, idx in hosts
+                    div(class="dropdown-item-text text-nowrap")
+                      div(class="host-control custom-control custom-radio")
+                        input(
+                          type="radio"
+                          class="custom-control-input radio-host"
+                          id="radio_host" + idx
+                          name="host_name"
+                          value=entry
+                          checked=idx==0
+                        )
+                        label(
+                          class="custom-control-label"
+                          for="radio_host" + idx
+                        )
+                          h6 #{entry}
+
+        include /views/includes/filter.pug
+
+    div(
+      id="top_container"
+      class="container-fluid px-0"
+    )
+      include includes/header_services.pug
+      include /views/includes/spinner.pug
+      div(
+        id="services_content"
+        class="container-services list-group list-group-flush accordion"
+      )
+      include includes/footer_services
+    include includes/modal_log.pug
+    include includes/modal_edit.pug
+    include includes/modal_view.pug
+    include includes/modal_upload.pug
+    script(src="/render/template_services.js")
+    script(src="/render/template_config.js")
+    script(src="/render/template_events.js")
+    script(
+      src="/services.mjs"
+      type="module"
+    )
+
+    script(src="/common.js")

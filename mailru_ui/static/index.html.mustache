@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Распознавание лиц от Mail.ru</title>
+  <style type="text/css">
+    html {
+      font-size: 16px;
+    }
+    body {
+      color: #333;
+      background-color: #fef9e7;
+      padding: 1rem;
+    }
+    section {
+      padding-bottom: 1rem;
+    }
+    h1, label, input, a {
+      font: 1rem 'Fira Sans', sans-serif;
+    }
+    h1 {
+      font-size: 1.3rem;
+    }
+    input {
+      color: #333;
+      margin: 0.4rem;
+    }
+    input[type=number] {
+      width: 5rem;
+    }
+    input[type=submit] {
+      padding: 0.3rem;
+    }
+    iframe {
+      border: 1px solid gray;
+      width: 100%;
+      height: 10rem;
+      background-color: white;
+    }
+    input:invalid {
+      outline: red dashed thin;
+    }
+  </style>
+</head>
+<body>
+  <form method="post" enctype="multipart/form-data" target="response">
+    <section>
+      <h1>Выберите операцию:</h1>
+      <input type="radio" name="op" value="recognize" id="op_recognize" checked>
+      <label for="op_recognize">Опознать</label><br>
+      <input type="radio" name="op" value="set" id="op_set">
+      <label for="op_set">Добавить</label><br>
+      <input type="radio" name="op" value="delete" id="op_delete">
+      <label for="op_delete">Удалить</label><br>
+      <input type="radio" name="op" value="truncate" id="op_truncate">
+      <label for="op_truncate">Очистить все</label>
+    </section>
+
+    <section>
+      <h1>Введите данные:</h1>
+      <label for="space_id">Номер банка лиц:</label>
+      <input type="number" id="space_id" name="space" min="0" max="9" value="{{VISION_SPACE}}" required><br>
+      <label for="face_file">Фотография лица:</label>
+      <input type="file" id="face_file" name="face" accept="image/*" required><br>
+      <label for="face_id">Числовой идентификатор:</label>
+      <input type="number" id="face_id" name="id" min="1" value="1" disabled required><br>
+      <input type="checkbox" id="create_if_new" name="create_new">
+      <label for="create_if_new">добавить, если не распознано</label>
+    </section>
+
+    <p>
+      <input type="submit" value="Отправить" id="send_btn">
+    </p>
+  </form>
+  <iframe id="response_box" name="response" title="Ответ сервера"></iframe>
+  <script type="text/javascript">
+    const find = function (id) {return document.getElementById(id)};
+    const fileInpt = find('face_file');
+    const idInpt = find('face_id');
+    const sendBtn = find('send_btn');
+    const createInpt = find('create_if_new');
+    const frame = find('response_box');
+    const form = document.forms[0];
+    form.onchange = function () {
+      //console.log(document.forms[0].elements.op.value);
+      let op = document.querySelector('input[name="op"]:checked').value;
+      switch(op) {
+        case 'recognize':
+          fileInpt.disabled = false;
+          idInpt.disabled = true;
+          createInpt.disabled = false;
+          break;
+        case 'set':
+        case 'delete':
+          fileInpt.disabled = false;
+          idInpt.disabled = false;
+          createInpt.disabled = true;
+          break;
+        case 'truncate':
+          fileInpt.disabled = true;
+          idInpt.disabled = true;
+          createInpt.disabled = true;
+      }
+    };
+    form.onsubmit = function (event) {
+      if (document.forms[0].elements['op'].value == 'truncate') {
+        if (!confirm(`Вы уверены что хотите очистить банк ${find('space_id').value} ?`)) {
+            event.preventDefault();
+            return false;
+        }
+      }
+      frame.document.body.innerHTML = '<pre>Загрузка...</pre>';
+      sendBtn.disabled = true;
+    };
+    frame.onload = function () {sendBtn.disabled = false};
+  </script>
+</body>

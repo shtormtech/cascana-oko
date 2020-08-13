@@ -1,0 +1,106 @@
+div(
+  class="modal fade"
+  id="modal_journal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal_journal_label"
+  aria-hidden="true"
+)
+  div(
+    class="modal-dialog modal-xl"
+    role="document"
+  )
+    div(class="modal-content")
+      div(class="modal-header")
+        h5(
+          class="modal-title"
+          id="modal_journal_label"
+        ) Журнал событий
+          span(class="journal-count badge badge-pill badge-primary ml-2")
+
+        button(
+          type="button"
+          class="close"
+          data-dismiss="modal"
+        )
+          span(aria-hidden="true") &times;
+
+      div(class="modal-body p-0")
+        div(class="row w-100 bg-light border-bottom m-0")
+          form(
+            id="form_journal_hours"
+            class="col-lg-6 form-inline py-2 d-flex"
+            data-limit=db_limit
+          )
+            label(
+              class="mr-2"
+              for="journal_hours"
+            ) За последние
+            input(
+              type="number"
+              class="mr-1 form-control"
+              id="journal_hours"
+              value="1"
+              min="1"
+              max="999"
+            )
+            div(class="mr-2") ч
+            button(
+              type="submit"
+              class="refresh btn btn-primary"
+              title="Найти"
+              disabled
+            )
+              include /views/includes/spinner_button.pug
+              i(class="fa fa-search")
+            button(
+              type="button"
+              class="refresh page-next btn btn-secondary ml-2"
+              style="display: none;"
+            )
+              include /views/includes/spinner_button.pug
+              span Еще #{db_limit}
+
+          form(
+            id="form_journal_filter"
+            action="/journal/"
+            class="col-lg-6 form-inline py-2 justify-content-lg-end d-flex"
+          )
+            div(class="d-flex")
+              input(
+                type="text"
+                class="mr-2 form-control"
+                id="journal_filter"
+                placeholder="фильтр контента"
+                size="30"
+                maxlength="100"
+              )
+              button(
+                type="button"
+                class="filter-reset btn btn-secondary"
+                title="Сброс"
+              )
+                i(class="fa fa-undo")
+
+        div(
+          class="header-journal list-group list-group-flush sticky-top"
+          style="display: none;"
+        )
+          div(class="list-group-item border-top-0")
+            div(class="d-flex w-100")
+              div(class="col-3 col-sm-2")
+                h6 Камера
+              div(class="col-6 col-sm-5")
+                h6 ФИО
+              div(class="col-3 col-sm-2")
+                h6 Время
+              div(class="col-3 col-sm-2 d-none d-sm-block")
+                h6 Дата
+              div(class="col-1 d-none d-lg-block")
+                h6 Фото
+        div(
+          id="journal_content"
+          class="container-journal list-group list-group-flush accordion"
+        )
+
+      include /views/includes/modal_footer

@@ -1,0 +1,27 @@
+{
+  "name": "va_mailru_ui",
+  "version": "1.0.0",
+  "description": "Web-интерфейс сервиса распознавания лиц Mail.ru",
+  "main": "index.js",
+  "config": {
+    "file": "./config.json",
+    "loglvl": "info"
+  },
+  "scripts": {
+    "start": "node index.js --trace-sync-io"
+  },
+  "author": "alexey.y.saraev@shtormtech.ru",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "module-alias": "^2.2.2",
+    "multer": "^1.4.2",
+    "superagent": "^5.2.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "_moduleAliases": {
+    "@lib": "../lib"
+  }
+}

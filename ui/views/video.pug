@@ -1,0 +1,118 @@
+doctype html
+html(lang="ru-RU")
+  head
+    include /views/includes/meta.pug
+
+    title Видео с камер
+
+    include /views/includes/code_common.pug
+    link(
+      rel="stylesheet"
+      href="/style.css"
+      type="text/css"
+    )
+    script(src="/lib/iframe-resizer/js/iframeResizer.min.js")
+    script(src="/render/template_event_details.js")
+    script(src="/render/template_journal.js")
+    script(src="/render/template_panel_item.js")
+  body
+    nav(class="navbar navbar-expand-md navbar-light bg-light sticky-top border-bottom py-0")
+      include /views/includes/navbar_decor.pug
+
+      div(
+        class="collapse navbar-collapse"
+        id="navbar_content"
+      )
+        ul(class="navbar-nav mr-auto")
+          li(class="nav-item dropdown")
+            div(class="dropdown")
+              form(id="form_cameras")
+                a(
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbar_cameras"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                ) Настройки
+                div(
+                  class="dropdown-menu"
+                  aria-labelledby="navbar_cameras"
+                )
+                  each entry in cameras
+                    div(class="dropdown-item-text text-nowrap")
+                      div(class="camera-control custom-control custom-checkbox")
+                        input(
+                          type="checkbox"
+                          class="custom-control-input checkbox-camera"
+                          id="checkbox_" + entry.id
+                          data-cam=entry.id
+                          checked
+                        )
+                        label(
+                          class="custom-control-label"
+                          for="checkbox_" + entry.id
+                        )
+                          h6 #{entry.id}
+                          small(class="text-muted") #{entry.desc}
+                    div(class="dropdown-divider")
+
+                  div(class="dropdown-item-text text-nowrap text-right d-none d-lg-block")
+                    div
+                      label(for="range_panel") Ширина панели событий &nbsp;
+                      input(
+                        type="range"
+                        class="range-panel custom-range"
+                        min="1"
+                        max="10"
+                        step="1"
+                        id="range_panel"
+                        value="2"
+                      )
+
+                  div(class="dropdown-item-text text-nowrap text-right d-none d-lg-block")
+                    div
+                      label(for="range_video") Ширина видео &nbsp;
+                      input(
+                        type="range"
+                        class="range-video custom-range"
+                        min="1"
+                        max="12"
+                        step="1"
+                        id="range_video"
+                        value="6"
+                      )
+
+          li(class="nav-item")
+            a(
+              class="link-journal nav-link"
+              href="#"
+              data-toggle="modal"
+              data-target="#modal_journal"
+            ) Журнал
+
+
+    div(class="container-fluid px-0")
+      div(class="row no-gutters")
+
+        div(class="video col-lg-10")
+          div(class="row no-gutters pr-4 pb-4")
+            each entry in cameras
+              div(class=`col-xl-6 container-video pl-4 pt-4 camera-${entry.id}`)
+                iframe(
+                  class="shadow-lg rounded"
+                  src=entry.url
+                )
+
+        div(class="events col-lg-2")
+          div(class="h-100 overflow-auto position-relative border-left border-bottom")
+            div(class="w-100 list-group list-group-flush position-absolute")
+
+    include includes/modal_journal.pug
+    include includes/modal_event.pug
+    script(src="/common.js")
+    script(
+      src="/video.mjs"
+      type="module"
+    )

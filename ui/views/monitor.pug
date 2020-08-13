@@ -1,0 +1,97 @@
+doctype html
+html(lang="ru-RU")
+  head
+    include /views/includes/meta.pug
+
+    title Мониторинг присутствия
+
+    include /views/includes/code_common.pug
+    link(
+      rel="stylesheet"
+      href="/style.css"
+      type="text/css"
+    )
+    script(src="/render/template_monitor_details.js")
+    script(src="/render/template_monitor_person.js")
+  body
+    nav(class="navbar navbar-expand-lg navbar-light bg-light sticky-top border-bottom py-0")
+      include /views/includes/navbar_decor.pug
+
+      div(
+        class="collapse navbar-collapse"
+        id="navbar_content"
+      )
+        ul(class="navbar-nav mr-auto")
+          li(class="nav-item")
+            div(class="custom-control custom-checkbox nav-link px-4")
+              input(
+                type="checkbox"
+                class="custom-control-input checkbox-status"
+                id="checkbox_status_present"
+                checked
+                data-cam=cam_in
+              )
+              label(
+                class="custom-control-label text-muted"
+                for="checkbox_status_present"
+              )
+                span(class="status-present")
+                span(class="counter-present badge badge-pill badge-success ml-2")
+
+          li(class="nav-item")
+            div(class="custom-control custom-checkbox nav-link px-4")
+              input(
+                type="checkbox"
+                class="custom-control-input checkbox-status"
+                id="checkbox_status_absent"
+                checked
+                data-cam=cam_out
+              )
+              label(
+                class="custom-control-label text-muted"
+                for="checkbox_status_absent"
+              )
+                span(class="status-absent")
+                span(class="counter-absent badge badge-pill badge-secondary ml-2")
+
+        form(
+          id="content_filter"
+          class="form-inline mx-3 my-2 justify-content-lg-end"
+        )
+          div(class="row")
+            input(
+              type="text"
+              class="form-control col"
+              placeholder="фильтр контента"
+              size="30"
+              maxlength="100"
+            )
+            button(
+              type="button"
+              class="filter-reset btn btn-secondary ml-2"
+              title="Сброс"
+            )
+              i(class="fa fa-undo")
+
+
+    div(
+      id="monitor_container"
+      class="container-fluid container-monitor"
+      data-photo-host=photo_svc.host
+      data-photo-port=photo_svc.port
+    )
+      div(class="row no-gutters py-2")
+        include /views/includes/spinner.pug
+
+    each cam in [cam_in, cam_out]
+      iframe(
+        src=`/camera/${cam}/embedded.html`
+        style="width: 1px; height: 1px; border: 0 none; visibility: hidden; position: absolute;"
+      )
+
+    include includes/modal_monitor.pug
+    script(src="/common.js")
+    script(
+      src="/monitor.mjs"
+      type="module"
+    )

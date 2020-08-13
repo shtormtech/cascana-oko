@@ -1,0 +1,29 @@
+{
+  "url": "{{{VA_EJABBERD_URL}}}",
+  "agent_timeouts": {
+    "response": 10,
+    "deadline": 20
+  },
+  "events": [
+    {
+      "name":        "face_true",
+      "description": "Лицо распознано"
+    },
+    {
+      "name":        "face_false",
+      "description": "Лицо не распознано"
+    }
+  ],
+  "db_svc": {
+    "host": "{{{VA_DBSVC_HOST}}}",
+    "port": {{VA_DBSVC_PORT}},
+    "agent_timeouts": {
+      "response": 30,
+      "deadline": 60
+    }
+  },
+  "photo_svc": {
+    "host": "{{{VA_PHOTOSVC_HOST}}}",
+    "port": {{VA_PHOTOSVC_PORT}}
+  }
+}

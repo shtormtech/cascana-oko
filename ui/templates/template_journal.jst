@@ -1,0 +1,22 @@
+{{ for (let item of it) { }}
+<a href="#" class="item-journal list-group-item list-group-item-action py-1 link-event camera-{{=item.camera_id}}"
+  data-toggle="collapse" data-target="#journal_{{=item.itemId}}" aria-expanded="false"
+  aria-controls="journal_{{=item.itemId}}" data-id="{{=item.file_name}}">
+  <div class="row-journal d-flex w-100 align-items-center">
+    <div class="col-3 col-sm-2">{{=item.camera_id}}</div>
+    <div class="col-6 col-sm-5">{{=item.event_id==6 && item.fio ? item.fio : 'неизвестно'}}</div>
+    <div class="col-3 col-sm-2">{{=item.eventTime}}</div>
+    <div class="col-3 col-lg-2 d-none d-sm-block">{{=item.eventDate}}</div>
+    <div class="col-1 d-none d-lg-block">
+      <img alt="" class="journal-photo photo-background" src="{{=item.photoUrl}}">
+    </div>
+  </div>
+</a>
+<div class="collapse bg-light p-4" id="journal_{{=item.itemId}}" data-parent="#journal_content">
+  <div class="spinner mt-2">
+    <div class="spinner-border spinner-border text-primary" role="status">
+      <span class="sr-only">Загрузка...</span>
+    </div>
+  </div>
+</div>
+{{ } }}

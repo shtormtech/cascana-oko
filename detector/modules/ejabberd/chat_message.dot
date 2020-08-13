@@ -1,0 +1,6 @@
+{
+  "camera": "{{=it.time}}: {{=it.zone}}: {{=it.text}}: {{=it.person}}",
+  "zone":   "{{=it.time}}: {{=it.camera_id}}: {{=it.text}}: {{=it.person}}",
+  "person": "{{=it.time}}: {{=it.camera_id}}: {{=it.zone}}: {{=it.text}}",
+  "all":    "{{=it.time}}: {{=it.camera_id}}: {{=it.zone}}: {{=it.text}}: {{=it.person}}"
+}

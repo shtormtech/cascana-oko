@@ -1,0 +1,6 @@
+{
+  "camera": ["Камера {{=it.camera_id}}"],
+  "zone":   {{=it.zone}},
+  "person": ["{{=it.person}}"],
+  "all":    ["Все камеры"]
+}

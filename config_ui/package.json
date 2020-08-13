@@ -1,0 +1,32 @@
+{
+  "name": "va_config_ui",
+  "version": "1.0.0",
+  "description": "Интерфейс конфигурирования системы видеоаналитики",
+  "main": "index.js",
+  "config": {
+    "file": "./config.json",
+    "loglvl": "info"
+  },
+  "scripts": {
+    "start": "node index.js --trace-sync-io"
+  },
+  "author": "alexey.y.saraev@shtormtech.ru",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "bootstrap-colorpicker": "^3.2.0",
+    "dot": "^1.1.2",
+    "express": "^4.17.1",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.4.1",
+    "module-alias": "^2.2.1",
+    "pug": "^2.0.4",
+    "rxjs": "^6.5.3"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "_moduleAliases": {
+    "@lib": "../lib"
+  }
+}

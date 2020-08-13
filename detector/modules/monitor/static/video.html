@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+	<head>
+		<title>Монитор</title>
+	  <meta charset="utf-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css" type="text/css">
+		<link rel="stylesheet" href="video/video.css" type="text/css">
+		<script src="/lib/jquery/dist/jquery.min.js"></script>
+		<script src="/lib/socket.io-client/dist/socket.io.js"></script>
+		<script src="/lib/iframe-resizer/js/iframeResizer.contentWindow.min.js"></script>
+	</head>
+	<body>
+		<div class="video">
+		</div>
+		<div class="marker" style="display: none;"></div>
+		<div class="camera"></div>
+		<div class="zone"></div>
+		<div class="log"></div>
+		<div class="info"></div>
+		<div class="text-container">
+			<div class="text" style="display: none;"></div>
+		</div>
+		<div class="alert red" style="display: none;"><div>Потеря связи c сервером</div></div>
+		<script src="video/monitor-client.js"></script>
+	</body>
+</html>

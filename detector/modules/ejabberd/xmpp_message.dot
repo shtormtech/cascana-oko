@@ -1,0 +1,3 @@
+<message from="abctechbot.{{=it.domain}}" id="{{=it.id}}" to="{{=it.room}}@conference.{{=it.domain}}" type="groupchat">
+<body>{{=it.message}} {{=it.image}}</body>
+</message>

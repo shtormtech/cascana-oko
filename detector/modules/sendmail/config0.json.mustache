@@ -1,0 +1,32 @@
+{
+  "transport": {
+    "sendmail": true,
+    "newline":  "unix",
+    "path":     "/usr/sbin/sendmail"
+  },
+  "smtp": {
+    "host": "{{{VA_SMTP_HOST}}}",
+    "port": {{VA_SMTP_PORT}}
+  },
+  "events": [
+    {
+      "name":        "face_true",
+      "description": "Лицо распознано",
+      "color":       "LimeGreen"
+    },
+    {
+      "name":        "face_false",
+      "description": "Лицо не распознано",
+      "color":       "OrangeRed"
+    }
+  ],
+  "photodir": "{{{VA_PHOTO_BASE_DIR}}}",
+  "db_svc": {
+    "host": "{{{VA_DBSVC_HOST}}}",
+    "port": {{VA_DBSVC_PORT}},
+    "agent_timeouts": {
+      "response": 30,
+      "deadline": 60
+    }
+  }
+}

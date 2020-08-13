@@ -1,0 +1,27 @@
+{
+  "name": "va_photo_service",
+  "version": "1.0.0",
+  "description": "Сервис отгрузки фотографий",
+  "main": "index.js",
+  "config": {
+    "file": "./config.json",
+    "loglvl": "info"
+  },
+  "scripts": {
+    "start": "node index.js --trace-sync-io"
+  },
+  "author": "alexey.y.saraev@shtormtech.ru",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-ip-filter": "^2.0.0",
+    "module-alias": "^2.2.1",
+    "ms": "^2.1.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "_moduleAliases": {
+    "@lib": "../lib"
+  }
+}

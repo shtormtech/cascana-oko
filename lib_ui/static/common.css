@@ -1,0 +1,49 @@
+.template {
+  display: none;
+}
+.modal-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  flex-wrap: nowrap;
+}
+button[disabled].refresh .spinner {
+  display: inline-block !important;
+}
+.search {
+  background-color: #ffff0066;
+  outline: 1px dotted orange;
+}
+.email, .file-name {
+  overflow-wrap: break-word;
+}
+.modal-header h5 {
+  font-weight: 400;
+}
+.changed {
+  outline: 1px solid orange;
+}
+.btn {
+  white-space: nowrap;
+}
+input:invalid {
+  outline: 1px dashed red;
+}
+.color-picker i {
+  border: 1px solid gray;
+  vertical-align: middle !important;
+  width: 1em !important;
+  height: 1em !important;
+}
+.colorpicker-input-addon::before {
+  display: none !important;
+}
+.colorpicker-input-addon:focus {
+  outline: 0 none;
+}
+.custom-file-label::after {
+  content: 'Найти' !important;
+}
+.list-file-upload {
+  list-style-type: none;
+}

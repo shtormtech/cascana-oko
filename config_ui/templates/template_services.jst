@@ -1,0 +1,180 @@
+{{~it :item}}
+<a href="#" class="item-service list-group-item list-group-item-action py-1 px-4"
+  data-toggle="collapse" data-target="#service_{{=item.pm_id}}" aria-expanded="false"
+  aria-controls="service_{{=item.pm_id}}">
+  <div class="row-service row w-100">
+    <div class="service-id col-xl-1 col-3 col-sm-2">{{=item.pm_id}}</div>
+    <div class="col-xl-2 col-6 col-sm-4">{{=item.name}}</div>
+    <div class="col-xl-1 col-3 col-sm-2">{{=item.status}}</div>
+    <div class="col-xl-1 col-4 d-none d-sm-block">{{=item.exec_mode}}</div>
+    <div class="col-xl-1 d-none d-xl-block">{{=item.pid || ''}}</div>
+    <div class="col-xl-2 d-none d-xl-block">{{=item.username}}</div>
+    <div class="col-xl-1 d-none d-xl-block text-right">{{=item.pm_uptime}}</div>
+    <div class="col-xl-1 d-none d-xl-block text-right">{{=item.restart_time}}</div>
+    <div class="col-xl-1 d-none d-xl-block text-right">{{=item.monit.memory}}</div>
+    <div class="col-xl-1 d-none d-xl-block text-right">{{=item.monit.cpu}}</div>
+  </div>
+</a>
+<div class="collapse bg-light px-4 py-2" id="service_{{=item.pm_id}}" data-parent="#services_content">
+  <div class="row w-100">
+    <div class="col-lg-5">
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">ID сервиса:</div>
+        <div class="col col-sm-8 pm-id">{{=item.pm_id}}</div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Имя сервиса:</div>
+        <div class="col col-sm-8 svc-name">{{=item.name}}</div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Статус:</div>
+        <div class="col col-sm-8">{{=item.status}}</div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Режим работы:</div>
+        <div class="col col-sm-8">{{=item.exec_mode}}</div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">ID процесса:</div>
+        <div class="col col-sm-8">{{=item.pid || ''}}</div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Имя пользователя:</div>
+        <div class="col col-sm-8">{{=item.username}}</div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Время работы:</div>
+        <div class="col col-sm-8">{{=item.pm_uptime}}</div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Число рестартов:</div>
+        <div class="col col-sm-8">{{=item.restart_time}}</div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Лимит памяти:</div>
+        <div class="col col-sm-8">{{=item.max_memory_restart || ''}}</div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Память:</div>
+        <div class="col col-sm-8">{{=item.monit.memory}}</div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Процессор, %:</div>
+        <div class="col col-sm-8">{{=item.monit.cpu}}</div>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Номер экземпляра:</div>
+        <div class="col col-sm-8">{{=item.NODE_APP_INSTANCE}}</div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Число экземпляров:</div>
+        <div class="col col-sm-8">{{=item.instances}}</div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Версия:</div>
+        <div class="col col-sm-8">{{=item.version}}</div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Имя хоста:</div>
+        <div class="col col-sm-8">{{=item.HOSTNAME || ''}}</div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Исполняемый файл:</div>
+        <div class="col col-sm-8 file-name">{{=item.pm_exec_path}}</div>
+      </div>
+      {{? item.NODE_ENV != undefined }}
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Окружение:</div>
+        <div class="col col-sm-8">
+          <select class="input-env" name="NODE_ENV" data-init-val="{{=item.NODE_ENV}}">
+            <option {{? item.NODE_ENV == 'production' }}selected{{?}}>production</option>
+            <option {{? item.NODE_ENV == 'development' }}selected{{?}}>development</option>
+          </select>
+        </div>
+      </div>
+      {{?}}
+      {{? item.cfgFileName != undefined }}
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Файл конфигурации:</div>
+        <div class="col col-sm-8">
+          <select class="input-env config-file" name="npm_config_file" data-init-val="{{=item.cfgFileName}}" disabled>
+            <option selected>{{=item.cfgFileName}}</option>
+          </select>
+        </div>
+      </div>
+      {{?}}
+      {{? item.npm_config_loglvl != undefined }}
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Уровень логирования:</div>
+        <div class="col col-sm-8">
+          <select class="input-env" name="npm_config_loglvl" data-init-val="{{=item.npm_config_loglvl}}">
+            <option {{? item.npm_config_loglvl == 'none' }}selected{{?}}>none</option>
+            <option {{? item.npm_config_loglvl == 'error' }}selected{{?}}>error</option>
+            <option {{? item.npm_config_loglvl == 'warn' }}selected{{?}}>warn</option>
+            <option {{? item.npm_config_loglvl == 'info' }}selected{{?}}>info</option>
+            <option {{? item.npm_config_loglvl == 'debug' }}selected{{?}}>debug</option>
+          </select>
+        </div>
+      </div>
+      {{?}}
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Файл логирования:</div>
+        <div class="col col-sm-8 file-name">
+          <a href="#" class="link-log" data-toggle="modal" data-target="#modal_log">{{=item.pm_out_log_path}}</a>
+        </div>
+      </div>
+      <div class="row border-bottom">
+        <div class="col col-sm-4 text-muted">Файл ошибок:</div>
+        <div class="col col-sm-8 file-name">
+          <a href="#" class="link-log" data-toggle="modal" data-target="#modal_log">{{=item.pm_err_log_path}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{##def.spinner:
+  <div class="spinner mr-2" style="display: none;">
+    <div class="spinner-border spinner-border-sm text-light" role="status">
+      <span class="sr-only">Загрузка...</span>
+    </div>
+  </div>
+  #}}
+
+
+  <button type="button" class="btn-service-start btn btn-primary d-flex float-right ml-2 mt-3" data-id="{{=item.pm_id}}">
+    {{#def.spinner}}
+    <span class="d-none d-lg-block mr-1">Старт/рестарт</span>
+    <i class="fa fa-play p-1"></i>
+  </button>
+  {{? item.instances > 1}}
+  <button type="button" class="btn-service-start btn btn-primary d-flex float-right ml-2 mt-3" data-id="{{=item.name}}">
+    {{#def.spinner}}
+    <span class="d-none d-lg-block mr-2">Старт/рестарт кластер</span>
+    <i class="fa fa-bars py-1"></i>
+    <i class="fa fa-play p-1"></i>
+  </button>
+  {{?}}
+  <button type="button" class="btn-service-stop btn btn-secondary d-flex float-right ml-2 mt-3" data-id="{{=item.pm_id}}">
+    {{#def.spinner}}
+    <span class="d-none d-lg-block mr-1">Стоп</span>
+    <i class="fa fa-stop p-1"></i>
+  </button>
+  {{? item.instances > 1}}
+  <button type="button" class="btn-service-stop btn btn-secondary d-flex float-right ml-2 mt-3" data-id="{{=item.name}}">
+    {{#def.spinner}}
+    <span class="d-none d-lg-block mr-2">Стоп кластер</span>
+    <i class="fa fa-bars py-1"></i>
+    <i class="fa fa-stop p-1"></i>
+  </button>
+  {{?}}
+  {{? item.cfgFileName != undefined }}
+  <button type="button" class="btn-edit btn btn-outline-secondary d-flex float-right ml-2 mt-3" data-toggle="modal" data-target="#modal_edit">
+    {{#def.spinner}}
+    <span class="d-none d-lg-block mr-1">Изменить конфиг</span>
+    <i class="fa fa-pencil p-1"></i>
+  </button>
+  {{?}}
+</div>
+{{~}}

@@ -1,0 +1,125 @@
+<div class="media mx-4">
+  <div class="container-photo mr-4 d-none d-sm-block">
+    <img alt="" class="row photo-max photo-background details-photo d-block" src="{{=it.photoUrl}}" title="Изображение с камеры">
+    {{? it.origUrl!=undefined && it.similarity>=0.5}}
+    <img alt="" class="row photo-max orig-background details-photo mt-2 d-block" src="{{=it.origUrl}}" title="{{=it.fio || 'Образец лица'}}">
+    {{?}}
+  </div>
+  <div class="media-body">
+    <h5 class="pb-2">{{=it.title || 'неизвестный'}}</h5>
+    <div class="container-fluid">
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Камера</div>
+        <div class="col-8">{{=it.camera_id}}</div>
+      </div>
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Время</div>
+        <div class="col-8">{{=it.eventTime}}</div>
+      </div>
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">День недели</div>
+        <div class="col-8">{{=it.eventDay}}</div>
+      </div>
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Дата</div>
+        <div class="col-8">{{=it.eventDate}}</div>
+      </div>
+      {{? it.zoneList != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Зона</div>
+        <div class="col-8">{{=it.zoneList}}</div>
+      </div>
+      {{?}}
+      {{? it.file_name != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Имя файла</div>
+        <div class="col-8 file-name">{{=it.file_name}}</div>
+      </div>
+      {{?}}
+      {{? it.fileSize != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Размер файла</div>
+        <div class="col-8">{{=it.fileSize}}</div>
+      </div>
+      {{?}}
+      {{? it.photoSize != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Размер фото</div>
+        <div class="col-8">{{=it.photoSize}}</div>
+      </div>
+      {{?}}
+      {{? it.photoRecognizable != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Распознаваемо</div>
+        <div class="col-8">{{=it.photoRecognizable}}</div>
+      </div>
+      {{?}}
+
+      {{? it.personId!=undefined && it.similarity>=0.5}}
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">ID</div>
+        <div class="col-8">{{=it.personId}}</div>
+      </div>
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Совпадение</div>
+        <div class="col-8">
+          {{=(it.similarity*100).toFixed(1)}}%
+          {{? it.threshold != undefined}}
+            (MIN {{=it.threshold}})
+          {{?}}
+        </div>
+      </div>
+      {{?}}
+
+      {{? it.eyeglasses != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Очки</div>
+        <div class="col-8 person-eyeglasses-{{=it.eyeglasses}}"></div>
+      </div>
+      {{?}}
+      {{? it.personAge != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Возраст</div>
+        <div class="col-8">{{=it.personAge}}</div>
+      </div>
+      {{?}}
+      {{? it.gender != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Пол</div>
+        <div class="col-8 person-gender-{{=it.gender}}"></div>
+      </div>
+      {{?}}
+      {{? it.ethnicity != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Раса</div>
+        <div class="col-8 person-race-{{=it.ethnicity}}"></div>
+      </div>
+      {{?}}
+      {{? it.emotion != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Эмоция</div>
+        <div class="col-8 person-mood-{{=it.emotion}}"></div>
+      </div>
+      {{?}}
+
+      {{? it.systemDelay != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Задержка системы</div>
+        <div class="col-8">{{=it.systemDelay}} с</div>
+      </div>
+      {{?}}
+      {{? it.system != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Распознавание</div>
+        <div class="col-8">{{=it.system}}</div>
+      </div>
+      {{?}}
+      {{? it.action_module != undefined}}
+      <div class="row border-top py-1">
+        <div class="col-4 text-muted">Исполняющий модуль</div>
+        <div class="col-8">{{=it.action_module}}</div>
+      </div>
+      {{?}}
+    </div>
+  </div>
+</div>

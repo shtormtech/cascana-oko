@@ -1,0 +1,16 @@
+{
+  "name": "va_lib",
+  "version": "1.0.0",
+  "description": "Библиотека модулей видеоаналитики",
+  "author": "alexey.y.saraev@shtormtech.ru",
+  "license": "MIT",
+  "dependencies": {
+    "dateformat": "^3.0.3",
+    "passport": "^0.4.1",
+    "passport-http": "^0.3.0",
+    "superagent": "^5.2.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  }
+}

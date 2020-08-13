@@ -1,0 +1,32 @@
+div(
+  class="modal fade"
+  id="modal_edit"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal_edit_label"
+  aria-hidden="true"
+)
+  div(
+    class="modal-dialog modal-lg"
+    role="document"
+  )
+    div(class="modal-content")
+      div(class="modal-header")
+        h5(
+          class="modal-title"
+          id="modal_edit_label"
+        ) Конфигурация
+          span(class="ml-2")
+
+        button(
+          type="button"
+          class="close"
+          data-dismiss="modal"
+        )
+          span(aria-hidden="true") &times;
+
+      div(class="modal-body p-0")
+        div(class="modal-container")
+          form(id="form_config")
+
+      include /views/includes/modal_footer_edit

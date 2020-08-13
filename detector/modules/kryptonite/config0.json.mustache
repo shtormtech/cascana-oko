@@ -1,0 +1,22 @@
+{
+  "base_url":           "{{{KRYPTONITE_BASE_URL}}}",
+  "user":               "{{KRYPTONITE_USER}}",
+  "password":           "{{{KRYPTONITE_PWD}}}",
+  "agent_timeouts": {
+    "response":         10,
+    "deadline":         20
+  },
+  "db_svc": {
+    "host":             "{{{VA_DBSVC_HOST}}}",
+    "port":             {{VA_DBSVC_PORT}},
+    "agent_timeouts": {
+      "response":       30,
+      "deadline":       60
+    }
+  },
+  "cache_db":           false,
+  "facedir":            "{{{VA_PHOTO_ORIG_DIR}}}/faces",
+  "verificate_timeout": 10,
+  "threshold":          70,
+  "min_face_size":      80
+}

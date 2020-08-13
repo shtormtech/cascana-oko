@@ -1,0 +1,83 @@
+div(
+  class="modal fade"
+  id="modal_log"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal_log_label"
+  aria-hidden="true"
+)
+  div(
+    class="modal-dialog modal-xl"
+    role="document"
+  )
+    div(class="modal-content")
+      div(class="modal-header")
+        h5(
+          class="modal-title"
+          id="modal_log_label"
+        )
+          span
+          span(class="counter-log badge badge-pill badge-primary ml-2")
+
+        button(
+          type="button"
+          class="close"
+          data-dismiss="modal"
+        )
+          span(aria-hidden="true") &times;
+
+      div(class="modal-body p-0")
+        div(class="row w-100 bg-light border-bottom m-0 sticky-top")
+          form(
+            id="form_log_hours"
+            class="col-lg-6 form-inline py-2 d-flex"
+          )
+            label(
+              class="mr-2"
+              for="log_hours"
+            ) За последние
+            input(
+              type="number"
+              class="mr-1 form-control"
+              id="log_hours"
+              value="1"
+              min="1"
+              max="999"
+            )
+            div(class="mr-2") ч
+            button(
+              type="submit"
+              class="refresh btn btn-primary"
+              title="Найти"
+              disabled
+            )
+              include /views/includes/spinner_button.pug
+              i(class="fa fa-search")
+
+          form(
+            id="form_log_filter"
+            action="#"
+            class="col-lg-6 form-inline py-2 justify-content-lg-end d-flex"
+          )
+            div(class="d-flex")
+              input(
+                type="text"
+                class="mr-2 form-control"
+                id="log_filter"
+                placeholder="фильтр контента"
+                size="30"
+                maxlength="100"
+              )
+              button(
+                type="button"
+                class="filter-reset btn btn-secondary"
+                title="Сброс"
+              )
+                i(class="fa fa-undo")
+
+        div(
+          class="modal-container p-3"
+          data-date-format=log_date_format
+        )
+
+      include /views/includes/modal_footer

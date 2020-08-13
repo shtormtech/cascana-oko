@@ -1,0 +1,18 @@
+<a href="#" class="list-group-item list-group-item-action py-1 link-event
+  camera-{{=it.camera_id}}
+  {{? !(it.eventName=='face_true' || it.event_id==6)}}text-muted bg-light{{?}}
+  {{? !it.eventName}}db-item{{?}}"
+  data-toggle="modal" data-target="#modal_event" data-id="{{=it.file_name}}">
+  <div class="w-100">
+    <div>
+      {{? !it.eventName}}
+      <i class="fa fa-database"></i>
+      {{??}}
+      <i class="fa fa-video-camera"></i>
+      {{?}}
+      <span class="ml-1">{{=it.camera_id}}</span>
+    </div>
+    <div>{{=it.eventTime}}</div>
+    <div>{{=(it.eventName=='face_true' || it.event_id==6) && it.fio ? it.fio : 'неизвестный'}}</div>
+  </div>
+</a>
