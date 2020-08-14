@@ -333,6 +333,6 @@ cfg.post('/file/:svc_name/:file_name/:new_name', express.json(), (req, res) => {
 
 getHttpServer(app, {cert_file})
   .listen(listen_port, listen_host, () => {
-    logger.info('Config service listening %s on listen_port %i', listen_host, listen_port);
+    logger.info('Config service listening %s on port %i', listen_host, listen_port);
     process.send && process.send('ready');
   });
